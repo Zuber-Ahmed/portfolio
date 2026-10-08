@@ -1,4 +1,4 @@
-import { motion as Motion } from 'framer-motion';
+import { motion as Motion, type Variants } from 'framer-motion';
 import React from 'react';
 import { FaGithub, FaLinkedin, FaXTwitter } from 'react-icons/fa6';
 
@@ -12,7 +12,7 @@ const social = [
   { Icon: FaXTwitter, label: 'Twitter', href: '' },
 ];
 
-const glowVariants = {
+const glowVariants: Variants = {
   initial: { scale: 1, y: 0, filter: 'drop-shadow(0 0 0 rgba(0, 0, 0, 0))' },
   hover: {
     scale: 1.2,

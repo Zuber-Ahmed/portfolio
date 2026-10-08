@@ -19,7 +19,7 @@ const GREETINGS = [
   'Nǐ hǎo',
 ];
 
-const IntroAnimator = ({ onFinish }) => {
+const IntroAnimator = ({ onFinish }: { onFinish: () => void }) => {
   const [index, setIndex] = React.useState(0);
   const [visible, setVisible] = React.useState(true);
 

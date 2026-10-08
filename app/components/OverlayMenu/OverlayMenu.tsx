@@ -1,6 +1,12 @@
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
-const OverlayMenu = ({ isOpen, onClose }) => {
+const OverlayMenu = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
   const origin = isMobile ? '95% 8%' : '50% 8%';
   return (

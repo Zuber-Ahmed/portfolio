@@ -1,5 +1,5 @@
 'use client';
-import { motion as Motion } from 'framer-motion';
+import { motion as Motion, type Variants } from 'framer-motion';
 import React, { useMemo, useState } from 'react';
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
@@ -15,7 +15,7 @@ const social = [
   { Icon: FaTwitter, label: 'Twitter', href: '' },
 ];
 
-const glowVariants = {
+const glowVariants: Variants = {
   initial: { scale: 1, y: 0, filter: 'drop-shadow(0 0 0 rgba(0, 0, 0, 0))' },
   hover: {
     scale: 1.2,

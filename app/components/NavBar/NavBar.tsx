@@ -9,9 +9,8 @@ const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [visible, setVisible] = useState(true);
   const [forceVisible, setForceVisible] = useState(false);
-
   const lastScrollY = useRef(0);
-  const timerId = useRef(null);
+  const timerId = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const homeSection = document.querySelector('#home');
@@ -43,7 +42,7 @@ const NavBar = () => {
       }
 
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY) {
+      if (currentScrollY > lastScrollY.current) {
         setForceVisible(false);
       } else {
         setVisible(true);

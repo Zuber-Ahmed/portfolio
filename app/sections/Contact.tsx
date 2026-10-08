@@ -6,25 +6,29 @@ import Astra from '@/app/assets/Astra.png';
 import ParticlesBackground from '@/app/components/ParticlesBackground/ParticlesBackground';
 import { PUBLIC_KEY, SERVICE_ID, TEMPLATE_ID } from '@/app/config/env';
 
+type ContactFormData = { name: string; email: string; phone: string };
+type ContactErrors = Partial<Record<keyof ContactFormData, string>>;
+
 const Contact = () => {
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = React.useState<ContactFormData>({
     name: '',
     email: '',
     phone: '',
   });
 
-  const [error, setError] = React.useState({});
+  const [error, setError] = React.useState<ContactErrors>({});
   const [status, setStatus] = React.useState('');
 
-  const handleChange = e => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if (name !== 'name' && name !== 'email' && name !== 'phone') return;
     setFormData(p => ({ ...p, [name]: value }));
     if (error[name]) setError(p => ({ ...p, [name]: '' }));
   };
 
   const validateForm = () => {
-    const required = ['name', 'email', 'phone'];
-    const newErrors = {};
+    const required = ['name', 'email', 'phone'] as const;
+    const newErrors: ContactErrors = {};
 
     required.forEach(
       f =>
@@ -34,11 +38,14 @@ const Contact = () => {
     return !Object.keys(newErrors).length;
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) return;
     setStatus('sending');
     try {
+      if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+        throw new Error('Email service configuration is missing.');
+      }
       await emailjs.send(
         SERVICE_ID,
         TEMPLATE_ID,
@@ -81,7 +88,7 @@ const Contact = () => {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}>
           <Motion.img
-            src={Astra}
+            src={Astra.src}
             alt="Contact"
             className="w-72 md:w-140 rounded-2xl shadow-lg object-cover"
             animate={{ y: [0, -10, 0] }}

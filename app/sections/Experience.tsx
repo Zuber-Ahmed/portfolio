@@ -1,7 +1,28 @@
-import { motion as Motion, useScroll, useTransform } from 'framer-motion';
+import {
+  motion as Motion,
+  type MotionValue,
+  useScroll,
+  useTransform,
+} from 'framer-motion';
 import React from 'react';
 
-const ExperienceItem = ({ exp, idx, start, end, scrollYProgress, layout }) => {
+type ExperienceItemProps = {
+  exp: (typeof experiences)[number];
+  idx: number;
+  start: number;
+  end: number;
+  scrollYProgress: MotionValue<number>;
+  layout: 'desktop' | 'mobile';
+};
+
+const ExperienceItem = ({
+  exp,
+  idx,
+  start,
+  end,
+  scrollYProgress,
+  layout,
+}: ExperienceItemProps) => {
   const scale = useTransform(scrollYProgress, [start, end], [0, 1]);
   const opacity = useTransform(scrollYProgress, [start, end], [0, 1]);
   const y = useTransform(

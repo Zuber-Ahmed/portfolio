@@ -4,7 +4,16 @@ const PARTICLE_COUNT = 50;
 const PARTICLE_COLORS = ['rgba(255,255,255,0.75)'];
 
 class Particle {
-  constructor(canvas, ctx) {
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  x: number;
+  y: number;
+  radius: number;
+  color: string;
+  speedX: number;
+  speedY: number;
+
+  constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
     this.canvas = canvas;
     this.ctx = ctx;
     this.x = Math.random() * canvas.width;
@@ -39,33 +48,35 @@ class Particle {
 }
 
 const ParticlesBackground = () => {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    let particles = [];
-    function createParticles() {
+    let particles: Particle[] = [];
+    const createParticles = () => {
       particles = [];
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         particles.push(new Particle(canvas, ctx));
       }
-    }
-    function handleResize() {
+    };
+    const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       createParticles();
-    }
+    };
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    let animationid;
-    function animate() {
+    let animationid: number;
+    const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => p.update());
       animationid = requestAnimationFrame(animate);
-    }
+    };
     animate();
 
     return () => {

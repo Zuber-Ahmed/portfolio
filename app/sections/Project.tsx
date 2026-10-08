@@ -22,7 +22,7 @@ const useInMobile = (query = '(max-width: 639px)') => {
   React.useEffect(() => {
     if (typeof window === 'undefined') return;
     const mediaQuery = window.matchMedia(query);
-    const handler = e => setIsMobile(e.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
     mediaQuery.addEventListener('change', handler);
     setIsMobile(mediaQuery.matches);
     return () => mediaQuery.removeEventListener('change', handler);

@@ -50,9 +50,9 @@ const Skills = () => {
   const repeated = [...skills, ...skills];
   const [active, setActive] = React.useState(false);
   const [dir, setDir] = React.useState(-1);
-  const containerRef = React.useRef(null);
-  const trackRef = React.useRef(null);
-  const touchRef = React.useRef(null);
+  const containerRef = React.useRef<HTMLElement>(null);
+  const trackRef = React.useRef<HTMLDivElement>(null);
+  const touchRef = React.useRef<number | null>(null);
   const x = useMotionValue(0);
 
   React.useEffect(() => {
@@ -72,10 +72,11 @@ const Skills = () => {
 
   React.useEffect(() => {
     if (!active) return;
-    const onWheel = e => setDir(e.deltaY > 0 ? -1 : 1);
-    const onTouchStart = e => (touchRef.current = e.touches[0].clientY);
+    const onWheel = (e: WheelEvent) => setDir(e.deltaY > 0 ? -1 : 1);
+    const onTouchStart = (e: TouchEvent) =>
+      (touchRef.current = e.touches[0].clientY);
 
-    const onTouchMove = e => {
+    const onTouchMove = (e: TouchEvent) => {
       if (touchRef.current == null) return;
       const delta = e.touches[0].clientY - touchRef.current;
       setDir(delta > 0 ? 1 : -1);
@@ -94,15 +95,15 @@ const Skills = () => {
   }, [active]);
 
   React.useEffect(() => {
-    let id;
+    let id: number;
     let last = performance.now();
 
     const speed = 80; // pixels per second
-    const tick = now => {
+    const tick = (now: number) => {
       const delta = (now - last) / 1000;
       last = now;
       let next = x.get() + speed * dir * delta;
-      const loop = trackRef.current?.scrollWidth / 2 || 0;
+      const loop = (trackRef.current?.scrollWidth ?? 0) / 2;
 
       if (loop) {
         if (next <= -loop) next += loop;
