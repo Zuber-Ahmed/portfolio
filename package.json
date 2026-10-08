@@ -6,12 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "static:check": "eslint . --ext .js,.jsx,.ts,.tsx && prettier --check --ignore-unknown .",
+    "static:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx && prettier --log-level silent --write --ignore-unknown ."
   },
   "dependencies": {
+    "@emailjs/browser": "^5.0.2",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "framer-motion": "^14.0.0",
     "next": "16.4.0",
+    "prettier": "^3.9.9",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "react-icons": "^5.7.0",
+    "react-spinners": "^0.17.1"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",

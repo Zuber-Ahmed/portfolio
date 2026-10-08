@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,500&family=Plus+Jakarta+Sans:wght@400;600&display=swap');
+
+.wedding-maintenance {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 80px 24px;
+  background: #fbf9f6;
+  color: #1b1c1a;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: 0;
+}
+.wedding-maintenance-watermark {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: 850px;
+  height: 850px;
+  max-width: none;
+  transform: translate(-50%, -50%);
+  color: #725b38;
+  opacity: 0.035;
+  pointer-events: none;
+}
+.wedding-maintenance-card {
+  position: relative;
+  width: min(100%, 720px);
+  padding: 56px;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 80%);
+  box-shadow:
+    0 20px 25px -5px rgb(0 32 20 / 5%),
+    0 8px 10px -6px rgb(0 32 20 / 5%);
+  text-align: center;
+}
+.wedding-maintenance-card::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border-radius: 4px;
+  background: rgb(245 243 240 / 40%);
+  pointer-events: none;
+}
+.wedding-maintenance-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.wedding-maintenance-medallion {
+  width: 88px;
+  height: 88px;
+  margin-bottom: 32px;
+}
+.wedding-maintenance-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #725b38;
+}
+.wedding-maintenance-kicker p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  text-transform: uppercase;
+}
+.wedding-maintenance-kicker > span {
+  position: relative;
+  width: 40px;
+  height: 1px;
+  margin-inline: 7px;
+  background: rgb(114 91 56 / 40%);
+}
+.wedding-maintenance-kicker > span::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 5px;
+  height: 5px;
+  background: #725b38;
+  transform: rotate(45deg);
+}
+.wedding-maintenance-kicker > span:first-child::after {
+  right: -12px;
+}
+.wedding-maintenance-kicker > span:last-child::after {
+  left: -12px;
+}
+.wedding-maintenance h1 {
+  margin: 16px 0 20px;
+  color: #002014;
+  font:
+    400 56px/1.25 'Playfair Display',
+    Georgia,
+    serif;
+  letter-spacing: 0;
+}
+.wedding-maintenance-rule {
+  width: 64px;
+  height: 1px;
+  margin-bottom: 32px;
+  background: linear-gradient(to right, transparent, #725b38, transparent);
+  opacity: 0.6;
+}
+.wedding-maintenance-message {
+  max-width: 576px;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.625;
+}
+.wedding-maintenance-thanks {
+  margin: 20px 0 0;
+  color: #414844;
+  font-size: 16px;
+  line-height: 1.625;
+}
+.wedding-maintenance-closing {
+  margin: 26px 0 0;
+  color: #143628;
+  font:
+    italic 500 26px/36px 'Playfair Display',
+    Georgia,
+    serif;
+}
+.wedding-maintenance-finial {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 56px;
+  color: #725b38;
+  opacity: 0.5;
+}
+.wedding-maintenance-finial span {
+  width: 6px;
+  height: 6px;
+  border: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+.wedding-maintenance-finial span:nth-child(2) {
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+}
+@media (max-width: 767px) {
+  .wedding-maintenance {
+    padding: 40px 24px;
+  }
+  .wedding-maintenance-card {
+    padding: 48px;
+  }
+  .wedding-maintenance h1 {
+    font-size: 38px;
+  }
+}
+@media (max-width: 639px) {
+  .wedding-maintenance-card {
+    padding: 32px;
+  }
+  .wedding-maintenance-card::before {
+    inset: 8px;
+  }
+  .wedding-maintenance h1 {
+    font-size: 28px;
+    line-height: 38px;
+  }
+  .wedding-maintenance-kicker {
+    gap: 10px;
+  }
+  .wedding-maintenance-kicker > span {
+    width: 24px;
+  }
+  .wedding-maintenance-message {
+    font-size: 16px;
+  }
+  .wedding-maintenance-thanks {
+    font-size: 14px;
+  }
+  .wedding-maintenance-closing {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+@media (max-width: 359px) {
+  .wedding-maintenance {
+    padding-inline: 16px;
+  }
+  .wedding-maintenance-card {
+    padding-inline: 24px;
+  }
+  .wedding-maintenance-kicker > span {
+    width: 16px;
+  }
+}
