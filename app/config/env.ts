@@ -1,3 +1,16 @@
-export const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID;
-export const TEMPLATE_ID = process.env.NEXT_PUBLIC_TEMPLATE_ID;
-export const PUBLIC_KEY = process.env.NEXT_PUBLIC_KEY;
+export const EMAIL_SERVICE_ID = process.env.NEXT_PUBLIC_EMAIL_SERVICE_ID;
+export const EMAIL_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAIL_TEMPLATE_ID;
+export const EMAIL_SENDER_KEY = process.env.NEXT_PUBLIC_EMAIL_SENDER_KEY;
+
+// COGNITO
+const COGNITO_REGION = process.env.NEXT_PUBLIC_COGNITO_REGION || 'ap-south-1';
+const COGNITO_CLIENT_ID = process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID;
+const COGNITO_USER_POOL_ID = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID;
+
+export const AWS = {
+  COGNITO: {
+    REGION: COGNITO_REGION as string,
+    CLIENT_ID: COGNITO_CLIENT_ID as string,
+    USER_POOL_ID: COGNITO_USER_POOL_ID as string,
+  },
+};

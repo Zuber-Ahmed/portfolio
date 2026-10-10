@@ -1,0 +1,1113 @@
+.wedding-v2 {
+  --v2-emerald: #073a2a;
+  --v2-deep: #002f22;
+  --v2-gold: #b28a4b;
+  --v2-paper: #fffdfa;
+  background: #faf8f5;
+}
+.wedding-v2-state {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  background: #faf8f5;
+  color: #173c31;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+.wedding-v2-state h1 {
+  margin: 0;
+  font:
+    600 clamp(2rem, 8vw, 3rem)/1.15 'Cormorant Garamond',
+    serif;
+  letter-spacing: 0;
+}
+.wedding-v2-state > p {
+  max-width: 28rem;
+  margin: 0;
+  color: #65625d;
+  line-height: 1.7;
+}
+.wedding-v2-monogram {
+  width: 5.5rem;
+  height: 5.5rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--v2-gold);
+  border-radius: 50%;
+  color: var(--v2-emerald);
+  font:
+    700 1.25rem 'Cormorant Garamond',
+    serif;
+  box-shadow:
+    inset 0 0 0 7px #faf8f5,
+    inset 0 0 0 8px rgb(178 138 75 / 45%);
+}
+.wedding-v2-kicker {
+  color: var(--v2-gold) !important;
+  font-size: 0.68rem !important;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.wedding-v2-loading-mark {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 2px solid rgb(178 138 75 / 25%);
+  border-top-color: var(--v2-gold);
+  border-radius: 50%;
+  animation: v2-spin 0.8s linear infinite;
+}
+.wedding-v2-primary {
+  min-height: 50px;
+  padding: 0.8rem 1.35rem;
+  border: 1px solid #cfb476;
+  border-radius: 0.4rem;
+  background: var(--v2-deep);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.wedding-v2-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.wedding-v2-envelope-card {
+  padding: 1rem !important;
+}
+.wedding-v2-envelope-card small {
+  color: var(--v2-gold) !important;
+  font-weight: 700;
+}
+.wedding-v2-envelope-card strong {
+  max-width: 100%;
+  color: var(--v2-emerald) !important;
+  font:
+    italic 600 clamp(1.35rem, 6vw, 2.2rem)/1.05 'Cormorant Garamond',
+    serif !important;
+  overflow-wrap: anywhere;
+}
+.wedding-v2-envelope-card span {
+  color: #8a8177;
+  font:
+    italic 0.7rem 'Cormorant Garamond',
+    serif;
+}
+.wedding-v2-envelope-recipient {
+  max-width: min(88vw, 30rem);
+  margin: 0.8rem auto 0;
+}
+.wedding-v2-envelope-recipient small {
+  display: block;
+  color: #9a7a43;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.wedding-v2-envelope-recipient strong {
+  display: block;
+  margin-top: 0.2rem;
+  color: #856e52;
+  font:
+    italic 600 clamp(1.15rem, 5vw, 1.75rem)/1.05 'Cormorant Garamond',
+    serif;
+  overflow-wrap: anywhere;
+}
+
+.wedding-v2-reveal {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem 3rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 15%, #fff 0, transparent 30rem), #fbf9f5;
+  color: #4f4b46;
+  text-align: center;
+}
+.wedding-v2-reveal > header {
+  width: min(100%, 34rem);
+}
+.wedding-v2-reveal > header > span {
+  color: #775b2b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.wedding-v2-reveal h1 {
+  margin: 1rem 0 0.3rem;
+  color: var(--v2-emerald);
+  font:
+    600 clamp(1.9rem, 8vw, 2.75rem)/1.08 'Cormorant Garamond',
+    serif;
+  letter-spacing: 0;
+}
+.wedding-v2-reveal header strong {
+  display: block;
+  color: #856e52;
+  font:
+    italic 600 clamp(1.65rem, 8vw, 2.5rem)/1.05 'Cormorant Garamond',
+    serif;
+  overflow-wrap: anywhere;
+}
+.wedding-v2-reveal header p {
+  margin: 1rem auto;
+  max-width: 26rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.wedding-v2-envelope-stage {
+  position: relative;
+  width: min(100%, 31rem);
+  aspect-ratio: 4/3;
+  margin: 0.2rem auto 0;
+  perspective: 1200px;
+}
+.wedding-v2-ribbon-envelope {
+  position: absolute;
+  inset: 7% 0 3%;
+  transform-style: preserve-3d;
+}
+.wedding-v2-envelope-shadow {
+  position: absolute;
+  z-index: 0;
+  inset: 24% 3% 0;
+  border-radius: 0.5rem;
+  background: rgb(46 42 39 / 12%);
+  filter: blur(18px);
+  transform: translateY(1rem);
+}
+.wedding-v2-envelope-base {
+  position: absolute;
+  z-index: 1;
+  inset: 18% 0 0;
+  overflow: hidden;
+  border: 1px solid rgb(201 168 124 / 32%);
+  border-radius: 0.5rem;
+  background: linear-gradient(145deg, #fff 0, #f5f3ef 52%, #fbf9f5 100%);
+  box-shadow:
+    0 10px 28px rgb(46 42 39 / 8%),
+    inset 0 0 0 5px rgb(255 255 255 / 45%);
+}
+.wedding-v2-envelope-paper {
+  position: absolute;
+  z-index: 2;
+  left: 6%;
+  right: 6%;
+  bottom: 7%;
+  height: 72%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.32rem;
+  padding: 1.15rem 0.8rem;
+  border: 1px solid rgb(201 168 124 / 30%);
+  border-radius: 0.25rem;
+  background: #fff;
+  color: #2e2a27;
+  box-shadow: 0 4px 16px rgb(46 42 39 / 10%);
+  opacity: 0;
+  transform: translateY(36%);
+  transition:
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.7s ease,
+    opacity 0.25s ease;
+}
+.wedding-v2-envelope-paper::before {
+  content: '';
+  position: absolute;
+  inset: 0.35rem;
+  border: 1px solid rgb(201 168 124 / 22%);
+  pointer-events: none;
+}
+.wedding-v2-envelope-paper span {
+  color: #8f6e50;
+  font:
+    0.55rem/1.2 'Montserrat',
+    sans-serif;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.wedding-v2-envelope-paper strong {
+  color: #2e2a27;
+  font:
+    500 clamp(1.8rem, 8vw, 2.8rem)/1 'Cormorant Garamond',
+    serif;
+  letter-spacing: 0;
+}
+.wedding-v2-envelope-paper strong i {
+  color: #c9a87c;
+  font-weight: 400;
+}
+.wedding-v2-envelope-paper small {
+  color: #8fa693;
+  font:
+    0.52rem/1.2 'Montserrat',
+    sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.wedding-v2-envelope-flap {
+  position: absolute;
+  z-index: 6;
+  top: 18%;
+  left: 0;
+  right: 0;
+  height: 47%;
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+  transition:
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    z-index 0s 0.4s;
+}
+.wedding-v2-envelope-flap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(180deg, #fff 0, #f5f3ef 100%);
+  border-top: 1px solid rgb(201 168 124 / 32%);
+  filter: drop-shadow(0 4px 3px rgb(46 42 39 / 7%));
+  backface-visibility: hidden;
+}
+.wedding-v2-envelope-flap span {
+  position: absolute;
+  z-index: 1;
+  top: 64%;
+  left: 50%;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 1px solid #c9a87c;
+  border-bottom: 1px solid #c9a87c;
+  transform: translateX(-50%) rotate(45deg);
+  opacity: 0.6;
+}
+.wedding-v2-envelope-pocket {
+  position: absolute;
+  z-index: 4;
+  inset: 18% 0 0;
+  overflow: hidden;
+  clip-path: polygon(0 14%, 50% 65%, 100% 14%, 100% 100%, 0 100%);
+  border-radius: 0 0 0.5rem 0.5rem;
+  background:
+    linear-gradient(
+      33deg,
+      transparent 49.7%,
+      rgb(201 168 124 / 34%) 50%,
+      transparent 50.35%
+    ),
+    linear-gradient(
+      -33deg,
+      transparent 49.7%,
+      rgb(201 168 124 / 34%) 50%,
+      transparent 50.35%
+    ),
+    linear-gradient(150deg, #fbf9f5 0, #f5f3ef 56%, #fff 100%);
+  box-shadow: inset 0 -1px 0 rgb(201 168 124 / 28%);
+}
+.wedding-v2-envelope-pocket span {
+  position: absolute;
+  left: 50%;
+  bottom: 13%;
+  color: #b08c61;
+  font:
+    600 0.72rem/1 'Cormorant Garamond',
+    serif;
+  letter-spacing: 0.11em;
+  transform: translateX(-50%);
+}
+.wedding-v2-ribbon {
+  position: absolute;
+  z-index: 8;
+  background: linear-gradient(
+    90deg,
+    #cfaa9d 0,
+    #e2c7bd 40%,
+    #d8b4a6 58%,
+    #cda697 100%
+  );
+  box-shadow:
+    inset 0 1px rgb(255 255 255 / 35%),
+    inset 0 -1px rgb(116 88 77 / 12%),
+    0 2px 5px rgb(46 42 39 / 8%);
+  transition:
+    transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.45s ease;
+}
+.wedding-v2-ribbon-left,
+.wedding-v2-ribbon-right {
+  top: 48%;
+  width: 50.5%;
+  height: 1.5rem;
+  transform: translateY(-50%);
+}
+.wedding-v2-ribbon-left {
+  left: 0;
+}
+.wedding-v2-ribbon-right {
+  right: 0;
+}
+.wedding-v2-ribbon-top,
+.wedding-v2-ribbon-bottom {
+  left: 50%;
+  width: 1.5rem;
+  background: linear-gradient(90deg, #cda697 0, #e2c7bd 48%, #cfaa9d 100%);
+  transform: translateX(-50%);
+}
+.wedding-v2-ribbon-top {
+  top: 18%;
+  height: 30%;
+}
+.wedding-v2-ribbon-bottom {
+  top: 48%;
+  bottom: 0;
+}
+.wedding-v2-ribbon-knot {
+  position: absolute;
+  z-index: 10;
+  top: 48%;
+  left: 50%;
+  width: 4.5rem;
+  height: 4.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #d8b4a6;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition:
+    transform 0.55s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.4s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.wedding-v2-ribbon-knot:focus-visible {
+  outline: 2px solid #8fa693;
+  outline-offset: 3px;
+}
+.wedding-v2-ribbon-knot:disabled {
+  cursor: default;
+}
+.wedding-v2-knot-loop,
+.wedding-v2-knot-center,
+.wedding-v2-knot-tail {
+  position: absolute;
+  display: block;
+}
+.wedding-v2-knot-loop {
+  top: 1.22rem;
+  width: 1.8rem;
+  height: 1.25rem;
+  border: 0.48rem solid #d8b4a6;
+  background: #eddad3;
+  box-shadow:
+    inset 0 1px rgb(255 255 255 / 45%),
+    0 3px 6px rgb(46 42 39 / 12%);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.wedding-v2-knot-loop-left {
+  right: 50%;
+  border-radius: 80% 35% 50% 60%;
+  transform: rotate(15deg);
+}
+.wedding-v2-knot-loop-right {
+  left: 50%;
+  border-radius: 35% 80% 60% 50%;
+  transform: rotate(-15deg);
+}
+.wedding-v2-knot-center {
+  z-index: 2;
+  top: 1.38rem;
+  left: 50%;
+  width: 1.1rem;
+  height: 1rem;
+  border-radius: 45%;
+  background: linear-gradient(145deg, #e6c8bd, #cda697);
+  box-shadow: 0 3px 6px rgb(46 42 39 / 14%);
+  transform: translateX(-50%) rotate(4deg);
+}
+.wedding-v2-knot-tail {
+  z-index: 1;
+  top: 2.15rem;
+  width: 0.72rem;
+  height: 1.45rem;
+  background: linear-gradient(90deg, #cda697, #e2c7bd 52%, #cfaa9d);
+  clip-path: polygon(0 0, 100% 0, 82% 100%, 45% 79%, 12% 100%);
+  transform-origin: 50% 0;
+}
+.wedding-v2-knot-tail-left {
+  left: 2rem;
+  transform: rotate(20deg);
+}
+.wedding-v2-knot-tail-right {
+  right: 2rem;
+  transform: rotate(-20deg);
+}
+.wedding-v2-envelope-instruction {
+  margin: 0.5rem 0 0;
+  color: #806d5e;
+  font:
+    italic 1rem/1.3 'Cormorant Garamond',
+    serif;
+  transition: opacity 0.35s ease;
+}
+.wedding-v2-envelope-reveal.is-untying .wedding-v2-knot-loop-left {
+  transform: translateX(-0.3rem) rotate(4deg) scaleX(1.12);
+}
+.wedding-v2-envelope-reveal.is-untying .wedding-v2-knot-loop-right {
+  transform: translateX(0.3rem) rotate(-4deg) scaleX(1.12);
+}
+.wedding-v2-envelope-reveal:not(.is-sealed) .wedding-v2-envelope-instruction {
+  opacity: 0;
+}
+.wedding-v2-envelope-reveal.is-releasing .wedding-v2-ribbon-left,
+.wedding-v2-envelope-reveal.is-opening .wedding-v2-ribbon-left,
+.wedding-v2-envelope-reveal.is-peeking .wedding-v2-ribbon-left,
+.wedding-v2-envelope-reveal.is-complete .wedding-v2-ribbon-left {
+  opacity: 0;
+  transform: translate(-108%, -50%);
+}
+.wedding-v2-envelope-reveal.is-releasing .wedding-v2-ribbon-right,
+.wedding-v2-envelope-reveal.is-opening .wedding-v2-ribbon-right,
+.wedding-v2-envelope-reveal.is-peeking .wedding-v2-ribbon-right,
+.wedding-v2-envelope-reveal.is-complete .wedding-v2-ribbon-right {
+  opacity: 0;
+  transform: translate(108%, -50%);
+}
+.wedding-v2-envelope-reveal.is-releasing .wedding-v2-ribbon-top,
+.wedding-v2-envelope-reveal.is-opening .wedding-v2-ribbon-top,
+.wedding-v2-envelope-reveal.is-peeking .wedding-v2-ribbon-top,
+.wedding-v2-envelope-reveal.is-complete .wedding-v2-ribbon-top {
+  opacity: 0;
+  transform: translate(-50%, -115%);
+}
+.wedding-v2-envelope-reveal.is-releasing .wedding-v2-ribbon-bottom,
+.wedding-v2-envelope-reveal.is-opening .wedding-v2-ribbon-bottom,
+.wedding-v2-envelope-reveal.is-peeking .wedding-v2-ribbon-bottom,
+.wedding-v2-envelope-reveal.is-complete .wedding-v2-ribbon-bottom {
+  opacity: 0;
+  transform: translate(-50%, 115%);
+}
+.wedding-v2-envelope-reveal.is-releasing .wedding-v2-ribbon-knot,
+.wedding-v2-envelope-reveal.is-opening .wedding-v2-ribbon-knot,
+.wedding-v2-envelope-reveal.is-peeking .wedding-v2-ribbon-knot,
+.wedding-v2-envelope-reveal.is-complete .wedding-v2-ribbon-knot {
+  opacity: 0;
+  transform: translate(-50%, -25%) rotate(8deg) scale(0.86);
+}
+.wedding-v2-envelope-reveal.is-opening .wedding-v2-envelope-flap,
+.wedding-v2-envelope-reveal.is-peeking .wedding-v2-envelope-flap,
+.wedding-v2-envelope-reveal.is-complete .wedding-v2-envelope-flap {
+  z-index: 1;
+  transform: rotateX(180deg);
+}
+.wedding-v2-envelope-reveal.is-peeking .wedding-v2-envelope-paper,
+.wedding-v2-envelope-reveal.is-complete .wedding-v2-envelope-paper {
+  opacity: 1;
+  transform: translateY(-12%);
+  box-shadow: 0 14px 28px rgb(46 42 39 / 13%);
+}
+
+.wedding-v2-invitation {
+  min-height: 100vh;
+  padding: 4.5rem 0.75rem 3rem;
+  background: #faf8f5;
+  animation: wedding-reveal 0.8s ease both;
+}
+.wedding-v2-opening-card,
+.wedding-v2-content-card,
+.wedding-v2-couple-hero {
+  width: min(100%, 42rem);
+  margin: 0 auto 1rem;
+}
+.wedding-v2-opening-card,
+.wedding-v2-content-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding: 1.4rem;
+  border: 1px solid rgb(178 138 75 / 15%);
+  border-radius: 0.6rem;
+  background: var(--v2-paper);
+  box-shadow: 0 6px 20px rgb(36 39 36 / 6%);
+  text-align: center;
+}
+.wedding-v2-greeting {
+  padding: 1.25rem;
+  background: #f5f2eb;
+}
+.wedding-v2-greeting span {
+  color: var(--v2-gold);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.wedding-v2-greeting h1 {
+  margin: 0.5rem 0;
+  color: var(--v2-emerald);
+  font:
+    600 clamp(1.45rem, 7vw, 2.1rem)/1.1 'Cormorant Garamond',
+    serif;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+.wedding-v2-greeting p {
+  max-width: 30rem;
+  margin: 0 auto;
+  color: #625e58;
+  font:
+    0.9rem/1.65 'Montserrat',
+    sans-serif;
+}
+.wedding-v2-couple-hero {
+  position: relative;
+  aspect-ratio: 4/5.2;
+  overflow: hidden;
+  border-radius: 0.7rem;
+  box-shadow: 0 8px 22px rgb(30 52 43 / 12%);
+}
+.wedding-v2-couple-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wedding-v2-couple-hero::after {
+  content: '';
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(transparent, rgb(0 47 34 / 88%));
+}
+.wedding-v2-couple-hero > div {
+  position: absolute;
+  z-index: 2;
+  inset: auto 1rem 1.5rem;
+  color: #fff;
+  text-align: center;
+}
+.wedding-v2-couple-hero span {
+  color: #efdba8;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.wedding-v2-couple-hero h2 {
+  margin: 0.35rem 0 0;
+  font:
+    400 clamp(2.7rem, 13vw, 4rem)/1 'Great Vibes',
+    cursive;
+  letter-spacing: 0;
+}
+.wedding-v2-couple-hero p {
+  margin: 0;
+  color: #efdba8;
+  font:
+    italic 1rem 'Cormorant Garamond',
+    serif;
+}
+.wedding-v2-content-card .wedding-family-grid {
+  margin-top: 1rem;
+}
+.wedding-v2-content-card .wedding-ceremony-grid.single {
+  grid-template-columns: minmax(0, 30rem);
+  justify-content: center;
+}
+.wedding-v2-content-card .wedding-ceremony-card {
+  background: var(--v2-deep);
+  color: #d8e6df;
+}
+.wedding-v2-content-card .wedding-ceremony-card h3,
+.wedding-v2-content-card .wedding-ceremony-details strong {
+  color: #fff;
+}
+.wedding-v2-content-card .wedding-ceremony-card time {
+  color: #efdba8;
+}
+.wedding-v2-content-card .wedding-ceremony-details small,
+.wedding-v2-content-card .wedding-location-pending {
+  color: #a7c6b7;
+}
+.wedding-v2-content-card .wedding-location-pending {
+  border-color: rgb(239 219 168 / 30%);
+}
+
+.wedding-v2-rsvp,
+.wedding-v2-rsvp-confirmation {
+  padding: 1.5rem;
+  border: 1px solid rgb(178 138 75 / 18%);
+  border-radius: 0.65rem;
+  background: #fff;
+  text-align: center;
+}
+.wedding-v2-rsvp h2,
+.wedding-v2-rsvp-confirmation h2 {
+  margin: 0.45rem auto;
+  max-width: 28rem;
+  color: var(--v2-emerald);
+  font:
+    700 clamp(1.5rem, 7vw, 2rem)/1.1 'Cormorant Garamond',
+    serif;
+  letter-spacing: 0;
+}
+.wedding-v2-rsvp > p,
+.wedding-v2-rsvp-confirmation > p {
+  margin: 0.4rem auto 1.2rem;
+  color: #756f67;
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+.wedding-v2-rsvp form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.wedding-v2-event-rsvp {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 1rem;
+  border: 0;
+  background: #f5f2eb;
+  text-align: left;
+}
+.wedding-v2-event-rsvp legend {
+  width: 100%;
+  padding: 0 0 0.7rem;
+  color: #725b38;
+  font:
+    700 0.75rem 'Montserrat',
+    sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.wedding-v2-event-rsvp label {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem;
+  background: #fff;
+  cursor: pointer;
+}
+.wedding-v2-event-rsvp input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  accent-color: var(--v2-emerald);
+}
+.wedding-v2-event-rsvp span {
+  color: #435048;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+.wedding-v2-form-error {
+  margin: 0 !important;
+  color: #9b1c1c !important;
+}
+.wedding-v2-rsvp-confirmation > span {
+  width: 2.8rem;
+  height: 2.8rem;
+  display: grid;
+  place-items: center;
+  margin: auto;
+  border-radius: 50%;
+  background: var(--v2-deep);
+  color: white;
+}
+.wedding-v2-rsvp-confirmation button {
+  border: 0;
+  background: none;
+  color: var(--v2-gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.wedding-v2-closing {
+  padding: 2rem 0 0.5rem;
+  border-top: 1px solid rgb(178 138 75 / 20%);
+}
+.wedding-v2-closing > .wedding-arabic {
+  margin: 0;
+  color: var(--v2-emerald);
+  font-size: clamp(1.45rem, 7vw, 2rem);
+}
+.wedding-v2-closing > p:not(.wedding-arabic) {
+  max-width: 28rem;
+  margin: 0.5rem auto 1.5rem;
+  color: #766a59;
+  font:
+    italic 1rem/1.5 'Cormorant Garamond',
+    serif;
+}
+.wedding-v2-closing > span {
+  color: var(--v2-gold);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.wedding-v2-closing h2 {
+  margin: 0.25rem;
+  color: var(--v2-emerald);
+  font:
+    400 2.2rem 'Great Vibes',
+    cursive;
+  letter-spacing: 0;
+}
+.wedding-v2-closing > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 1.5rem;
+}
+.wedding-v2-closing button {
+  min-height: 40px;
+  border: 0;
+  background: none;
+  color: #796844;
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@keyframes v2-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.wedding-v2-chat {
+  position: fixed;
+  inset: 0;
+  z-index: 61;
+  pointer-events: none;
+  background: transparent;
+  color: #57534e;
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0;
+}
+.wedding-v2-chat *,
+.wedding-v2-chat *::before,
+.wedding-v2-chat *::after {
+  box-sizing: border-box;
+}
+.wedding-v2-chat-launcher {
+  pointer-events: auto;
+  position: absolute;
+  right: 20px;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 61;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--v2-gold);
+  border-radius: 50%;
+  background: var(--v2-emerald);
+  color: white;
+  box-shadow: 0 5px 18px rgb(0 47 34 / 20%);
+  cursor: pointer;
+}
+.wedding-v2-chat-launcher svg {
+  width: 24px;
+  height: 24px;
+}
+.wedding-v2-chat-panel {
+  position: absolute;
+  pointer-events: auto;
+  z-index: 62;
+  right: 12px;
+  bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  width: min(380px, calc(100% - 24px));
+  height: min(540px, calc(100% - 108px - env(safe-area-inset-bottom, 0px)));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--v2-gold);
+  border-radius: 8px;
+  background: var(--v2-paper);
+  box-shadow: 0 12px 40px rgb(0 47 34 / 18%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s;
+}
+.wedding-v2-chat.is-open .wedding-v2-chat-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.wedding-v2-chat header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.7rem;
+  background: var(--v2-emerald);
+  color: white;
+}
+.wedding-v2-chat header > svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-inline: 0.25rem;
+}
+.wedding-v2-chat-heading {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.wedding-v2-chat-heading h2 {
+  margin: 0;
+  font:
+    600 1.25rem/1.15 'Cormorant Garamond',
+    serif;
+  letter-spacing: 0;
+}
+.wedding-v2-chat-heading p {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: #efdba8;
+}
+.wedding-v2-chat-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0.75rem;
+}
+.wedding-v2-chat-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--v2-emerald);
+  color: white;
+  cursor: pointer;
+}
+.wedding-v2-chat-icon svg {
+  width: 18px;
+  height: 18px;
+}
+.wedding-v2-chat button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.wedding-v2-chat :focus-visible {
+  outline: 2px solid var(--v2-gold);
+  outline-offset: 3px;
+}
+.wedding-v2-chat-log {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.5rem 0.25rem;
+}
+.wedding-v2-chat-message {
+  width: fit-content;
+  max-width: 90%;
+  padding: 0.7rem 0.9rem;
+  margin: 0 0 0.75rem;
+  border-radius: 4px;
+  background: #f1f4f2;
+  color: #25483b;
+  overflow-wrap: anywhere;
+}
+.wedding-v2-chat-message.user {
+  margin-left: auto;
+  background: var(--v2-emerald);
+  color: white;
+}
+.wedding-v2-chat-message span {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.wedding-v2-chat-message p {
+  margin: 0.35rem 0 0;
+  white-space: pre-wrap;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+.wedding-v2-chat-message a {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  color: inherit;
+  font-size: 0.78rem;
+  text-decoration: underline;
+}
+.wedding-v2-chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0.6rem 0;
+}
+.wedding-v2-chat-suggestions button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 44px;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #cbb58f;
+  border-radius: 4px;
+  color: var(--v2-emerald);
+  background: transparent;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.wedding-v2-chat-composer {
+  display: flex;
+  flex: none;
+  gap: 0.5rem;
+  padding: 0.5rem 0 0;
+}
+.wedding-v2-chat-composer input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  padding: 0.65rem;
+  border: 1px solid #b9c8c0;
+  border-radius: 4px;
+  background: white;
+  color: #173c31;
+  font:
+    400 16px/1.4 'Montserrat',
+    sans-serif;
+}
+.wedding-v2-chat-error {
+  color: #9b1c1c;
+  font-size: 0.8rem;
+}
+.wedding-v2-chat-error button {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  padding: 0.5rem 0;
+  cursor: pointer;
+}
+.wedding-v2-chat-pending {
+  color: #625e58;
+  font-size: 0.8rem;
+}
+.wedding-v2-chat-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.wedding-v2-chat-new {
+  align-self: center;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  background: #edf5f0;
+  color: var(--v2-emerald);
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.wedding-v2-invitation {
+  padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+}
+#invitation-rsvp {
+  scroll-margin-top: 5rem;
+}
+@media (max-width: 639px) {
+  .wedding-v2-chat-launcher {
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+  .wedding-v2-chat-body {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wedding-v2-chat-panel {
+    transition: none;
+  }
+}
+@media (min-width: 640px) {
+  .wedding-v2-opening-card,
+  .wedding-v2-content-card {
+    padding: 2.5rem;
+  }
+  .wedding-v2-invitation {
+    padding-inline: 1.5rem;
+  }
+  .wedding-v2-closing > div {
+    flex-direction: row;
+    justify-content: center;
+  }
+  .wedding-v2-event-rsvp span {
+    font-size: 0.85rem;
+  }
+}
+@media (max-width: 360px) {
+  .wedding-v2-reveal {
+    padding-inline: 0.7rem;
+  }
+  .wedding-v2-reveal header strong {
+    font-size: 1.55rem;
+  }
+  .wedding-v2-envelope-paper {
+    padding-top: 0.8rem;
+  }
+  .wedding-v2-invitation {
+    padding-inline: 0.5rem;
+  }
+  .wedding-v2-opening-card,
+  .wedding-v2-content-card {
+    padding: 1rem;
+  }
+  .wedding-v2-greeting {
+    padding: 1rem;
+  }
+  .wedding-v2-event-rsvp {
+    padding: 0.7rem;
+  }
+  .wedding-v2-rsvp {
+    padding: 1rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wedding-v2-loading-mark {
+    animation: none;
+  }
+  .wedding-v2-envelope-reveal * {
+    transition-duration: 0.01ms !important;
+  }
+}

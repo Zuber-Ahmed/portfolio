@@ -2,7 +2,7 @@
 import { Suspense, useState } from 'react';
 import { RingLoader } from 'react-spinners';
 
-import CustomCursor from '@/app/components/CustomCursor/CustomCursor';
+import { CustomCursor } from '@/app/components/CustomCursor/CustomCursor';
 import IntroAnimator from '@/app/components/IntroAnimator/IntroAnimator';
 import NavBar from '@/app/components/NavBar/NavBar';
 import About from '@/app/sections/About';

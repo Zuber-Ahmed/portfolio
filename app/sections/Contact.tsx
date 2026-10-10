@@ -1,12 +1,14 @@
-import emailjs from '@emailjs/browser';
 import { motion as Motion } from 'framer-motion';
 import React from 'react';
 
 import Astra from '@/app/assets/Astra.png';
 import ParticlesBackground from '@/app/components/ParticlesBackground/ParticlesBackground';
-import { PUBLIC_KEY, SERVICE_ID, TEMPLATE_ID } from '@/app/config/env';
+import {
+  type ContactMessage,
+  sendContactEmail,
+} from '@/app/services/contactService';
 
-type ContactFormData = { name: string; email: string; phone: string };
+type ContactFormData = ContactMessage;
 type ContactErrors = Partial<Record<keyof ContactFormData, string>>;
 
 const Contact = () => {
@@ -43,19 +45,7 @@ const Contact = () => {
     if (!validateForm()) return;
     setStatus('sending');
     try {
-      if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-        throw new Error('Email service configuration is missing.');
-      }
-      await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        {
-          ...formData,
-          from_name: formData.name,
-          replay_to: formData.email,
-        },
-        PUBLIC_KEY,
-      );
+      await sendContactEmail(formData);
       setStatus('success');
       setFormData({
         name: '',
