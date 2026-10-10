@@ -28,7 +28,7 @@ export async function requireAdmin(request: Request) {
       { status: 401 },
     );
   }
-  const group = process.env.COGNITO_ADMIN_GROUP || 'wedding-admin';
+  const group = process.env.COGNITO_ADMIN_GROUP || 'wedding-admin-production';
   if (!payload['cognito:groups']?.includes(group))
     throw new ApiError('Administrator access is required.', { status: 403 });
   return payload.sub;
