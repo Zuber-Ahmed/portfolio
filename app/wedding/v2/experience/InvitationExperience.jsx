@@ -38,7 +38,7 @@ export default function InvitationExperience({
       </section>
 
       <article className="wedding-v2-couple-hero">
-        <div className="relative min-h-80">
+        <div className="wedding-v2-couple-media">
           <Image
             src={wedding.artwork.hero}
             alt={`${wedding.couple.groom} and ${wedding.couple.bride} wedding invitation artwork`}
@@ -46,7 +46,7 @@ export default function InvitationExperience({
             fill
           />
         </div>
-        <div>
+        <div className="wedding-v2-couple-caption">
           <span>{eventTitle(events)}</span>
           <h2>
             {wedding.couple.groom} &amp; {wedding.couple.bride}

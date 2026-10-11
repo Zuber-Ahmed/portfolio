@@ -578,6 +578,11 @@
   border-radius: 0.7rem;
   box-shadow: 0 8px 22px rgb(30 52 43 / 12%);
 }
+.wedding-v2-couple-media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 .wedding-v2-couple-hero img {
   width: 100%;
   height: 100%;
@@ -589,7 +594,7 @@
   inset: 45% 0 0;
   background: linear-gradient(transparent, rgb(0 47 34 / 88%));
 }
-.wedding-v2-couple-hero > div {
+.wedding-v2-couple-caption {
   position: absolute;
   z-index: 2;
   inset: auto 1rem 1.5rem;

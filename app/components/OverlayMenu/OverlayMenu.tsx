@@ -32,8 +32,7 @@ const OverlayMenu = ({
               'Skills',
               'Project',
               'Experience',
-              'Contact',
-              'Wedding',
+              'Contact'
             ].map((item, index) => (
               <Motion.li
                 key={index}
@@ -42,8 +41,8 @@ const OverlayMenu = ({
                 transition={{ delay: 0.3 + index * 0.1 }}>
                 <a
                   href={
-                    item === 'Wedding'
-                      ? '/wedding/en'
+                    item === 'Home'
+                      ? '#home'
                       : `#${item.toLowerCase()}`
                   }
                   onClick={onClose}

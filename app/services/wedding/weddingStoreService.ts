@@ -317,7 +317,6 @@ export async function submitRSVP(token: string, responses: RsvpSubmission) {
   const updatedAt = new Date().toISOString();
   const attributes: Record<string, string> = {};
   const values: Record<string, unknown> = {
-    ':yes': true,
     ':updatedAt': updatedAt,
   };
   names.forEach(name => {
