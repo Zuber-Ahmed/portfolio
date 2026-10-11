@@ -53,10 +53,10 @@ afterEach(() => {
   else process.env.APP_ORIGIN = previousOrigin;
 });
 function readFixtures() {
-  mock.method(dynamoClient, 'get', async (id: string) =>
-    id === token
+  mock.method(dynamoClient, 'get', async (pk: string) =>
+    pk === `TOKEN#${token}`
       ? structuredClone(stored)
-      : id === 'wedding'
+      : pk === 'CONFIG#WEDDING'
         ? { wedding }
         : undefined,
   );
@@ -92,7 +92,7 @@ test('RSVP rejects uninvited events and guards invited events against concurrent
     dynamoClient,
     'update',
     async (_id: string, options: Parameters<typeof dynamoClient.update>[1]) => {
-      assert.match(options.ConditionExpression || '', /#nikah = :yes/);
+      assert.equal(options.ConditionExpression, 'attribute_exists(pk)');
       assert.equal(options.ExpressionAttributeValues?.[':nikah'], 'attending');
       assert.match(options.UpdateExpression || '', /rsvp.#nikah/);
       return { ...stored, rsvp: { nikah: 'attending', walima: 'attending' } };

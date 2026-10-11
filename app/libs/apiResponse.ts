@@ -37,7 +37,7 @@ export async function apiResponse(
         { status: error.status || 500 },
       );
     console.error(
-      'API operation failed:',
+      '--------->API operation failed:',
       error instanceof Error ? error.name : 'UnknownError',
     );
     return NextResponse.json(

@@ -41,11 +41,11 @@ async function conditional<T>(operation: () => Promise<T>): Promise<T> {
 }
 
 export const dynamoClient = {
-  async get(id: string) {
+  async get(pk: string) {
     const result = await dynamoDocumentClient.send(
       new GetCommand({
         TableName: tableName(),
-        Key: { id },
+        Key: { pk },
         ConsistentRead: true,
       }),
     );
@@ -58,9 +58,8 @@ export const dynamoClient = {
       const result = await dynamoDocumentClient.send(
         new ScanCommand({
           TableName: tableName(),
-          FilterExpression: '#kind = :kind',
-          ExpressionAttributeNames: { '#kind': 'kind' },
-          ExpressionAttributeValues: { ':kind': 'invitation' },
+          FilterExpression: 'begins_with(pk, :prefix)',
+          ExpressionAttributeValues: { ':prefix': 'TOKEN#' },
           ExclusiveStartKey: cursor,
         }),
       );
@@ -76,7 +75,7 @@ export const dynamoClient = {
           TableName: tableName(),
           Item: item,
           ...(create
-            ? { ConditionExpression: 'attribute_not_exists(id)' }
+            ? { ConditionExpression: 'attribute_not_exists(pk)' }
             : {}),
         }),
       ),
@@ -91,14 +90,14 @@ export const dynamoClient = {
           Put: {
             TableName: tableName(),
             Item,
-            ConditionExpression: 'attribute_not_exists(id)',
+            ConditionExpression: 'attribute_not_exists(pk)',
           },
         })),
       }),
     );
   },
   async update(
-    id: string,
+    pk: string,
     options: Omit<UpdateCommandInput, 'TableName' | 'Key' | 'ReturnValues'>,
   ) {
     const result = await conditional(() =>
@@ -106,20 +105,20 @@ export const dynamoClient = {
         new UpdateCommand({
           ...options,
           TableName: tableName(),
-          Key: { id },
+          Key: { pk },
           ReturnValues: 'ALL_NEW',
         }),
       ),
     );
     return result.Attributes;
   },
-  async delete(id: string) {
+  async delete(pk: string) {
     await conditional(() =>
       dynamoDocumentClient.send(
         new DeleteCommand({
           TableName: tableName(),
-          Key: { id },
-          ConditionExpression: 'attribute_exists(id)',
+          Key: { pk },
+          ConditionExpression: 'attribute_exists(pk)',
         }),
       ),
     );

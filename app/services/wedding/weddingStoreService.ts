@@ -1,4 +1,4 @@
-import { randomBytes } from 'node:crypto';
+import { randomBytes, randomUUID } from 'node:crypto';
 
 import { z } from 'zod';
 
@@ -9,11 +9,111 @@ import {
   eventDetailsSchema,
   guestSchema,
   type Invitation,
+  type Rsvp,
   type RsvpSubmission,
   storedInvitationSchema,
   weddingInputSchema,
   weddingSchema,
 } from './types';
+
+const CONFIG_KEY = 'CONFIG#WEDDING';
+const TOKEN_PREFIX = 'TOKEN#';
+
+const legacyInvitationSchema = z
+  .object({
+    pk: z.string().startsWith(TOKEN_PREFIX),
+    recipient: z.object({
+      displayName: z.string().trim().min(1).max(200),
+      recipientType: z.enum(['individual', 'family']),
+    }),
+    authorizedEvents: z.array(z.enum(['nikah', 'walima'])).default([]),
+    rsvp: z
+      .object({
+        nikah: z.enum(['attending', 'declined']).optional(),
+        walima: z.enum(['attending', 'declined']).optional(),
+        updatedAt: z.string().optional(),
+      })
+      .optional(),
+    opened: z.boolean().optional(),
+    revealed: z.boolean().optional(),
+    tracking: z
+      .object({
+        openCount: z.number().optional(),
+        revealedAt: z.string().optional(),
+      })
+      .optional(),
+  })
+  .passthrough();
+
+type StoredInvitation = z.infer<typeof storedInvitationSchema>;
+
+function tokenKey(token: string) {
+  return `${TOKEN_PREFIX}${token}`;
+}
+
+function tokenFromPk(pk: string) {
+  if (!pk.startsWith(TOKEN_PREFIX))
+    throw new ApiError('Invitation not found.', { status: 404 });
+  return pk.slice(TOKEN_PREFIX.length);
+}
+
+function invitationRsvp(value: unknown): Rsvp {
+  const source =
+    value && typeof value === 'object'
+      ? (value as Record<string, unknown>)
+      : undefined;
+  return {
+    nikah:
+      source?.nikah === 'attending' || source?.nikah === 'declined'
+        ? source.nikah
+        : undefined,
+    walima:
+      source?.walima === 'attending' || source?.walima === 'declined'
+        ? source.walima
+        : undefined,
+  };
+}
+
+function toStoredInvitation(item: unknown) {
+  const modern = storedInvitationSchema.safeParse(item);
+  if (modern.success) return modern.data;
+
+  const legacy = legacyInvitationSchema.parse(item);
+  const token = tokenFromPk(legacy.pk);
+  const authorized = new Set(legacy.authorizedEvents);
+  return storedInvitationSchema.parse({
+    id: token,
+    kind: 'invitation',
+    displayName: legacy.recipient.displayName,
+    recipientType: legacy.recipient.recipientType,
+    nikah: authorized.has('nikah'),
+    walima: authorized.has('walima'),
+    rsvp: invitationRsvp(legacy.rsvp),
+    opened: legacy.opened ?? (legacy.tracking?.openCount || 0) > 0,
+    revealed: legacy.revealed ?? Boolean(legacy.tracking?.revealedAt),
+  });
+}
+
+function toLegacyInvitation(item: StoredInvitation) {
+  const now = new Date().toISOString();
+  const rsvp: Record<string, unknown> = {};
+  if (item.rsvp.nikah) rsvp.nikah = item.rsvp.nikah;
+  if (item.rsvp.walima) rsvp.walima = item.rsvp.walima;
+  return {
+    pk: tokenKey(item.id),
+    invitationId: randomUUID(),
+    organizerToken: item.id,
+    recipient: {
+      displayName: item.displayName,
+      recipientType: item.recipientType,
+    },
+    authorizedEvents: (['nikah', 'walima'] as const).filter(name => item[name]),
+    rsvp,
+    status: 'active',
+    createdAt: now,
+    updatedAt: now,
+  };
+}
 
 function publicEvent(event: z.infer<typeof eventDetailsSchema>) {
   return {
@@ -37,9 +137,15 @@ function publicEvent(event: z.infer<typeof eventDetailsSchema>) {
 }
 
 export async function getWedding() {
-  const item = await dynamoClient.get('wedding');
+  const item = await dynamoClient.get(CONFIG_KEY);
   if (item) {
-    const wedding = weddingSchema.parse(item.wedding);
+    const source =
+      item && typeof item === 'object' && 'config' in item
+        ? (item as { config: unknown }).config
+        : item && typeof item === 'object' && 'wedding' in item
+          ? (item as { wedding: unknown }).wedding
+          : undefined;
+    const wedding = weddingSchema.parse(source);
     return {
       ...wedding,
       nikah: publicEvent(wedding.nikah),
@@ -76,21 +182,25 @@ export async function updateWedding(input: unknown) {
     nikah: publicEvent(data.nikah),
     walima: publicEvent(data.walima),
   };
-  await dynamoClient.put({ id: 'wedding', kind: 'wedding', wedding });
+  await dynamoClient.put({
+    pk: CONFIG_KEY,
+    config: wedding,
+    updatedAt: new Date().toISOString(),
+  });
   return wedding;
 }
-function newInvitation(input: unknown) {
+function newInvitation(input: unknown): StoredInvitation {
   return {
     ...guestSchema.parse(input),
     id: randomBytes(32).toString('base64url'),
     kind: 'invitation' as const,
-    rsvp: {},
+    rsvp: {} as Rsvp,
     opened: false,
     revealed: false,
   };
 }
 function withUrl(item: unknown) {
-  const invitation = storedInvitationSchema.parse(item);
+  const invitation = toStoredInvitation(item);
   const origin = process.env.APP_ORIGIN?.replace(/\/$/, '');
   if (!origin || !/^https?:\/\//.test(origin))
     throw new ApiError(
@@ -105,7 +215,7 @@ export async function listInvitations() {
 export async function createInvitation(input: unknown) {
   const invitation = newInvitation(input);
   const result = withUrl(invitation);
-  await dynamoClient.put(invitation, true);
+  await dynamoClient.put(toLegacyInvitation(invitation), true);
   return result;
 }
 export async function importInvitations(input: unknown) {
@@ -114,37 +224,41 @@ export async function importInvitations(input: unknown) {
     .parse(input);
   const items = guests.map(newInvitation);
   const result = items.map(withUrl);
-  await dynamoClient.createMany(items);
+  await dynamoClient.createMany(items.map(toLegacyInvitation));
   return result;
 }
 async function getStoredInvitation(id: string) {
   if (!/^[A-Za-z0-9_-]{43}$/.test(id))
     throw new ApiError('Invitation not found.', { status: 404 });
-  const item = await dynamoClient.get(id);
-  if (!item || item.kind !== 'invitation')
+  const item = await dynamoClient.get(tokenKey(id));
+  if (!item)
     throw new ApiError('Invitation not found.', { status: 404 });
-  return storedInvitationSchema.parse(item);
+  return toStoredInvitation(item);
 }
 export async function updateInvitation(id: string, input: unknown) {
   withUrl(await getStoredInvitation(id));
   const guest = guestSchema.parse(input);
+  const updatedAt = new Date().toISOString();
+  const authorizedEvents = (['nikah', 'walima'] as const).filter(
+    name => guest[name],
+  );
   // Update only editable fields, preserving concurrent tracking and RSVP writes.
-  const item = await dynamoClient.update(id, {
+  const item = await dynamoClient.update(tokenKey(id), {
     UpdateExpression:
-      'SET displayName = :name, recipientType = :type, nikah = :nikah, walima = :walima',
-    ConditionExpression: 'attribute_exists(id)',
+      'SET recipient.displayName = :name, recipient.recipientType = :type, authorizedEvents = :events, updatedAt = :updatedAt',
+    ConditionExpression: 'attribute_exists(pk)',
     ExpressionAttributeValues: {
       ':name': guest.displayName,
       ':type': guest.recipientType,
-      ':nikah': guest.nikah,
-      ':walima': guest.walima,
+      ':events': authorizedEvents,
+      ':updatedAt': updatedAt,
     },
   });
   return withUrl(item);
 }
 export async function deleteInvitation(id: string) {
   await getStoredInvitation(id);
-  await dynamoClient.delete(id);
+  await dynamoClient.delete(tokenKey(id));
 }
 export async function getInvitation(token: string): Promise<Invitation> {
   const guest = await getStoredInvitation(token);
@@ -183,9 +297,9 @@ export async function trackInvitation(
   field: 'opened' | 'revealed',
 ) {
   await getStoredInvitation(token);
-  await dynamoClient.update(token, {
+  await dynamoClient.update(tokenKey(token), {
     UpdateExpression: 'SET #field = :yes',
-    ConditionExpression: 'attribute_exists(id)',
+    ConditionExpression: 'attribute_exists(pk)',
     ExpressionAttributeNames: { '#field': field },
     ExpressionAttributeValues: { ':yes': true },
   });
@@ -210,13 +324,13 @@ export async function submitRSVP(token: string, responses: RsvpSubmission) {
     attributes[`#${name}`] = name;
     values[`:${name}`] = responses[name];
   });
-  const result = await dynamoClient.update(token, {
-    UpdateExpression: `SET ${names.map(name => `rsvp.#${name} = :${name}`).join(', ')}, updatedAt = :updatedAt`,
-    ConditionExpression: `attribute_exists(id) AND ${names.map(name => `#${name} = :yes`).join(' AND ')}`,
+  const result = await dynamoClient.update(tokenKey(token), {
+    UpdateExpression: `SET ${names.map(name => `rsvp.#${name} = :${name}`).join(', ')}, rsvp.updatedAt = :updatedAt, updatedAt = :updatedAt`,
+    ConditionExpression: 'attribute_exists(pk)',
     ExpressionAttributeNames: attributes,
     ExpressionAttributeValues: values,
   });
-  const saved = storedInvitationSchema.parse(result);
+  const saved = toStoredInvitation(result);
   return {
     rsvp: Object.fromEntries(
       (['nikah', 'walima'] as const)
