@@ -22,7 +22,7 @@ export function POST(request: Request) {
         new InitiateAuthCommand({
           AuthFlow: 'USER_PASSWORD_AUTH',
           ClientId: getCognitoClientId(),
-          AuthParameters: { USERNAME: email, PASSWORD: password },
+          AuthParameters: { USERNAME: email, PASSWORD: password }
         }),
       ),
     );

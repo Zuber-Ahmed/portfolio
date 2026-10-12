@@ -1,3 +1,4 @@
+'use client';
 import './wedding-maintenance.css';
 
 import { useEffect } from 'react';

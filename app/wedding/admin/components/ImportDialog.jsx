@@ -4,7 +4,7 @@ import { FiDownload, FiFileText, FiUpload, FiX } from 'react-icons/fi';
 import {
   downloadInvitationLinks,
   parseGuestFile,
-} from '../services/guestImport';
+} from '../../../utils/guestImport';
 
 export default function ImportDialog({ onClose, onImport }) {
   const inputRef = useRef(null);
