@@ -6,11 +6,11 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
 import { getAccessToken, logout } from '@/app/services/wedding/authService';
+import AdminLogin from '@/app/wedding/admin/screens/AdminLogin';
+import GuestsPage from '@/app/wedding/admin/screens/GuestsPage';
+import WeddingDetailsPage from '@/app/wedding/admin/screens/WeddingDetailsPage';
 
-import AdminLogin from './components/AdminLogin';
 import AdminShell from './components/AdminShell';
-import GuestsPage from './components/GuestsPage';
-import WeddingDetailsPage from './components/WeddingDetailsPage';
 
 function pageFromPath(path) {
   return path === '/wedding-admin/details' ? 'details' : 'guests';

@@ -1,4 +1,4 @@
-import { createInvitationMessage } from '../data/weddingData';
+import { createInvitationMessage } from '@/app/utils/wedding/weddingData';
 
 export default function GuestActions({ data }) {
   const invitationUrl =

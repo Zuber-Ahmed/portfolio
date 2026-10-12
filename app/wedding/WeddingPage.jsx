@@ -5,13 +5,15 @@ import './wedding.css';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
+import { weddingData } from '@/app/config/wedding';
+import { mergeWeddingData } from '@/app/utils/wedding/weddingData';
+
 import { useWeddingAudio } from '../hooks/useWeddingAudio';
 import { useWeddingDetails } from '../hooks/useWeddingDetails';
 import PetalCanvas from './components/PetalCanvas';
 import WeddingAudio from './components/WeddingAudio';
 import WeddingEnvelope from './components/WeddingEnvelope';
 import WeddingInvitation from './components/WeddingInvitation';
-import { mergeWeddingData, weddingData } from './data/weddingData';
 
 export default function WeddingPage({ onVisitPortfolio }) {
   const router = useRouter();

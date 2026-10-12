@@ -10,9 +10,10 @@
     "static:check": "eslint . --ext .js,.jsx,.ts,.tsx && prettier --check --ignore-unknown .",
     "static:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx && prettier --log-level silent --write --ignore-unknown .",
     "typecheck": "tsc --noEmit",
-    "test:api": "node --import tsx --test tests/*.test.ts tests/*.test.mts",
-    "test:ui": "node --import tsx --test app/wedding/v2/invitation/*.test.js",
-    "test": "npm run test:api && npm run test:ui"
+    "test:api": "node --import tsx --test tests/api/*.test.ts tests/services/*.test.ts tests/services/*.test.mts",
+    "test:ui": "node --import tsx --test tests/components/*.test.js",
+    "test": "npm run test:api && npm run test:unit && npm run test:ui",
+    "test:unit": "node --import tsx --test tests/utils/*.test.ts tests/utils/*.test.js"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.1147.0",

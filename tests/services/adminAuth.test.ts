@@ -4,7 +4,7 @@ import { after, test } from 'node:test';
 
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
 
-import { requireAdmin } from '../app/services/wedding/adminAuthService';
+import { requireAdmin } from '@/app/services/wedding/adminAuthService';
 
 const pool = 'ap-south-1_test';
 const clientId = 'test-client';

@@ -32,7 +32,7 @@ const OverlayMenu = ({
               'Skills',
               'Project',
               'Experience',
-              'Contact'
+              'Contact',
             ].map((item, index) => (
               <Motion.li
                 key={index}
@@ -40,11 +40,7 @@ const OverlayMenu = ({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 + index * 0.1 }}>
                 <a
-                  href={
-                    item === 'Home'
-                      ? '#home'
-                      : `#${item.toLowerCase()}`
-                  }
+                  href={item === 'Home' ? '#home' : `#${item.toLowerCase()}`}
                   onClick={onClose}
                   className="text-4xl text-white font-semibold hover:text-pink-400 transition-colors duration-300">
                   {item}

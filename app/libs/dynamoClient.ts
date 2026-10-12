@@ -10,15 +10,17 @@ import {
   type UpdateCommandInput,
 } from '@aws-sdk/lib-dynamodb';
 
+import { getServerConfig } from '@/app/config/server';
+
 import { ApiError } from './httpClient';
 
 export const dynamoDocumentClient = DynamoDBDocumentClient.from(
-  new DynamoDBClient({ region: process.env.AWS_REGION || 'ap-south-1' }),
+  new DynamoDBClient({ region: getServerConfig().awsRegion }),
   { marshallOptions: { removeUndefinedValues: true } },
 );
 
 function tableName() {
-  const name = process.env.WEDDING_TABLE_NAME;
+  const name = getServerConfig().weddingTableName;
   if (!name)
     throw new ApiError('Wedding storage is not configured.', { status: 503 });
   return name;

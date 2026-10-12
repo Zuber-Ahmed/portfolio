@@ -11,17 +11,45 @@ UI components → hooks / services → clients
 API route handlers → server services → clients → AWS
 ```
 
-- `app/sections`: portfolio sections.
-- `app/components`: shared UI and effects.
-- `app/hooks`: reusable React behavior.
-- `app/wedding`: wedding UI, including `admin` and `v2`.
-- `app/services`: feature operations. Wedding contracts and Zod schemas live in `wedding/types.ts`.
-- `app/libs`: HTTP, Cognito, DynamoDB, email, and API response helpers.
-- `app/config`: public application configuration.
-- `app/api`: thin handlers that authorize requests, validate inputs, and call services.
-- `tests`: service, API, authentication, and storage tests.
+```text
+app/
+├── api/                         # Thin HTTP route handlers
+├── components/                  # Shared portfolio UI, cards, loaders, effects
+├── config/
+│   ├── env.ts                   # Browser-safe environment settings
+│   ├── server.ts                # Server environment settings (runtime reads)
+│   └── wedding.js               # Wedding presentation defaults and assets
+├── hooks/                       # Reusable React hooks
+├── libs/                        # HTTP, AWS, email clients and response adapters
+├── mocks/wedding/               # Development invitation mocks
+├── sections/                    # Portfolio content sections
+├── services/wedding/            # Feature operations and shared data contracts
+├── utils/wedding/               # Date/time, import, message and animation helpers
+└── wedding/
+    ├── components/              # UI shared by wedding experiences
+    ├── admin/
+    │   ├── screens/             # Login, guest management, wedding details
+    │   └── components/          # Shell, dialogs, event editor, RSVP status
+    └── v2/                      # Invitation-specific UI and hooks
 
-`adminService`, `invitationService`, and `weddingService` are browser-facing services. `weddingStoreService`, `adminAuthService`, and `chatService` run on the server. Never import the database or server services into a client component.
+tests/
+├── api/                         # HTTP client and route behavior
+├── services/                    # Authentication and database service behavior
+├── utils/                       # Date/time and animation logic
+├── components/                  # Rendered UI behavior
+└── helpers/                     # Shared test storage and fake clock
+```
+
+Placement rules:
+
+- Only actual Next.js routes use `page.*` or `route.*`. UI files use component names. `Portfolio.tsx` is composed by the root page, so it no longer creates an accidental `/components/Portfolio` route.
+- Put reusable UI in `app/components` or the owning feature's `components` directory. Full admin screens belong in `admin/screens`; hooks belong in `app/hooks` or feature-specific `hooks`.
+- Put pure formatting, parsing, and animation helpers in `app/utils/wedding`. These contain no JSX. Keep external clients in `app/libs` and feature operations in `app/services`.
+- `app/config/env.ts` contains browser-safe settings; `app/config/server.ts` is for server imports only. Wedding presentation defaults are separate from the merge/message helpers and actual database facts.
+- Put all test files under `tests`, grouped by the behavior they test. Shared test utilities belong in `tests/helpers`. Runtime development mocks belong in `app/mocks`, not in services or the test suite.
+- Keep `next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `.prettierrc.js`, `package.json`, and `proxy.ts` at the root because their tools discover them there.
+
+`adminService`, `invitationService`, and `weddingService` are browser-facing services. `weddingStoreService`, `adminAuthService`, and `chatService` run on the server. Never import the database, server configuration, or server services into a client component. Wedding contracts and Zod schemas remain in `app/services/wedding/types.ts`.
 
 ## Routes
 
@@ -123,6 +151,6 @@ npm run static:check
 npm run build
 ```
 
-Tests mock AWS transport and use local signing keys to verify authentication without contacting AWS or mutating real data. `npm test` also runs the envelope animation and rendering tests. A successful test run does not verify your deployed AWS permissions or table configuration.
+Tests mock AWS transport and use local signing keys to verify authentication without contacting AWS or mutating real data. `npm test` runs all three groups: `test:api` (API/services), `test:unit` (utilities), and `test:ui` (components). A successful test run does not verify your deployed AWS permissions or table configuration.
 
 The default production build uses Turbopack and the existing Tailwind loader. It needs access to Google Fonts and permission to start local compiler workers. Use a Node.js-capable Next.js deployment; static export cannot serve these APIs.

@@ -1,8 +1,7 @@
 import { z } from 'zod';
 
-import { weddingData } from '@/app/wedding/data/weddingData.js';
-
-import { ApiError } from '../../libs/httpClient';
+import { weddingData } from '@/app/config/wedding';
+import { ApiError } from '@/app/libs/httpClient';
 import {
   type ChatContext,
   type ChatReply,
@@ -12,7 +11,7 @@ import {
   type RecipientType,
   type Rsvp,
   weddingSchema,
-} from './types';
+} from '@/app/services/wedding/types';
 
 const sourceSchema = z.object({
   couple: z.object({ groom: z.string(), bride: z.string() }),

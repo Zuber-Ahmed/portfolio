@@ -2,9 +2,10 @@ import { randomBytes, randomUUID } from 'node:crypto';
 
 import { z } from 'zod';
 
+import { getServerConfig } from '@/app/config/server';
 import { dynamoClient } from '@/app/libs/dynamoClient';
 import { ApiError } from '@/app/libs/httpClient';
-import { formatWeddingTime } from '@/app/utils/weddingDateTime';
+import { formatWeddingTime } from '@/app/utils/wedding/dateTime';
 
 import {
   eventDetailsSchema,
@@ -202,7 +203,7 @@ function newInvitation(input: unknown): StoredInvitation {
 }
 function withUrl(item: unknown) {
   const invitation = toStoredInvitation(item);
-  const origin = process.env.APP_ORIGIN?.replace(/\/$/, '');
+  const origin = getServerConfig().appOrigin;
   if (!origin || !/^https?:\/\//.test(origin))
     throw new ApiError(
       'Set APP_ORIGIN to the public website URL before managing invitations.',

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { createEnvelopeRevealSequence } from './envelopeRevealSequence';
+import { createEnvelopeRevealSequence } from '@/app/utils/wedding/envelopeRevealSequence';
 
 function eventLabel(events) {
   if (events.nikah && events.walima) return 'Nikah and Walima';

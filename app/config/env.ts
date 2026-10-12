@@ -14,3 +14,7 @@ export const AWS = {
     USER_POOL_ID: COGNITO_USER_POOL_ID as string,
   },
 };
+
+export const WEDDING_USE_MOCKS =
+  process.env.NODE_ENV === 'development' &&
+  process.env.NEXT_PUBLIC_WEDDING_USE_MOCKS === 'true';

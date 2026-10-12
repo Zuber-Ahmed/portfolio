@@ -1,9 +1,9 @@
 'use client';
 import { Suspense, useState } from 'react';
-import { RingLoader } from 'react-spinners';
 
 import { CustomCursor } from '@/app/components/CustomCursor/CustomCursor';
 import IntroAnimator from '@/app/components/IntroAnimator/IntroAnimator';
+import LoadingOverlay from '@/app/components/LoadingOverlay/LoadingOverlay';
 import NavBar from '@/app/components/NavBar/NavBar';
 import About from '@/app/sections/About';
 import Contact from '@/app/sections/Contact';
@@ -13,47 +13,41 @@ import Home from '@/app/sections/Home';
 import Project from '@/app/sections/Project';
 import Skills from '@/app/sections/Skills';
 
-const Activity = (visible: boolean) => (
-  <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black text-white overflow-hidden">
-    <RingLoader loading={visible} size={50} color="white" speedMultiplier={2} />
-  </div>
-);
-
 export default function Portfolio() {
   const [showIntro, setShowIntro] = useState(false);
 
   return (
     <>
-      <Suspense fallback={Activity(!showIntro)}>
+      <Suspense fallback={<LoadingOverlay visible={!showIntro} />}>
         {!showIntro && <IntroAnimator onFinish={() => setShowIntro(true)} />}
       </Suspense>
       {showIntro && (
         <div className="relative gradient text-white">
-          <Suspense fallback={Activity(showIntro)}>
+          <Suspense fallback={<LoadingOverlay visible={showIntro} />}>
             <CustomCursor />
           </Suspense>
-          <Suspense fallback={Activity(showIntro)}>
+          <Suspense fallback={<LoadingOverlay visible={showIntro} />}>
             <NavBar />
           </Suspense>
-          <Suspense fallback={Activity(showIntro)}>
+          <Suspense fallback={<LoadingOverlay visible={showIntro} />}>
             <Home />
           </Suspense>
-          <Suspense fallback={Activity(showIntro)}>
+          <Suspense fallback={<LoadingOverlay visible={showIntro} />}>
             <About />
           </Suspense>
-          <Suspense fallback={Activity(showIntro)}>
+          <Suspense fallback={<LoadingOverlay visible={showIntro} />}>
             <Skills />
           </Suspense>
-          <Suspense fallback={Activity(showIntro)}>
+          <Suspense fallback={<LoadingOverlay visible={showIntro} />}>
             <Project />
           </Suspense>
-          <Suspense fallback={Activity(showIntro)}>
+          <Suspense fallback={<LoadingOverlay visible={showIntro} />}>
             <Experience />
           </Suspense>
-          <Suspense fallback={Activity(showIntro)}>
+          <Suspense fallback={<LoadingOverlay visible={showIntro} />}>
             <Contact />
           </Suspense>
-          <Suspense fallback={Activity(showIntro)}>
+          <Suspense fallback={<LoadingOverlay visible={showIntro} />}>
             <Footer />
           </Suspense>
         </div>

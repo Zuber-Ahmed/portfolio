@@ -9,10 +9,12 @@ import {
 } from 'axios';
 import { z } from 'zod';
 
-import { ApiError, httpClient, requestJson } from '../app/libs/httpClient';
-import * as admin from '../app/services/wedding/adminService';
-import * as invitations from '../app/services/wedding/invitationService';
-import type { GuestInput, Wedding } from '../app/services/wedding/types';
+import { ApiError, httpClient, requestJson } from '@/app/libs/httpClient';
+import * as admin from '@/app/services/wedding/adminService';
+import * as invitations from '@/app/services/wedding/invitationService';
+import type { GuestInput, Wedding } from '@/app/services/wedding/types';
+
+import { createStorage } from '../helpers/storage';
 
 const originalAdapter = httpClient.defaults.adapter;
 const originalLocalStorage = Object.getOwnPropertyDescriptor(
@@ -33,22 +35,14 @@ afterEach(() => {
     else Reflect.deleteProperty(globalThis, name);
   }
 });
-function storage() {
-  const data = new Map<string, string>();
-  return {
-    getItem: (key: string) => data.get(key) ?? null,
-    setItem: (key: string, value: string) => data.set(key, value),
-    removeItem: (key: string) => data.delete(key),
-  };
-}
 function session(authenticated = true) {
   Object.defineProperty(globalThis, 'localStorage', {
     configurable: true,
-    value: storage(),
+    value: createStorage(),
   });
   Object.defineProperty(globalThis, 'sessionStorage', {
     configurable: true,
-    value: storage(),
+    value: createStorage(),
   });
   if (authenticated)
     localStorage.setItem(

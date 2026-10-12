@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';
 import { afterEach, mock, test } from 'node:test';
 
-import * as guest from '../app/api/admin/invitations/[id]/route';
-import * as imports from '../app/api/admin/invitations/import/route';
-import * as guests from '../app/api/admin/invitations/route';
-import * as wedding from '../app/api/admin/invitations/wedding/route';
-import { GET as invitation } from '../app/api/invitations/[token]/route';
-import { PUT as rsvp } from '../app/api/invitations/[token]/rsvp/route';
-import { dynamoClient } from '../app/libs/dynamoClient';
+import * as guest from '@/app/api/admin/invitations/[id]/route';
+import * as imports from '@/app/api/admin/invitations/import/route';
+import * as guests from '@/app/api/admin/invitations/route';
+import * as wedding from '@/app/api/admin/invitations/wedding/route';
+import { GET as invitation } from '@/app/api/invitations/[token]/route';
+import { PUT as rsvp } from '@/app/api/invitations/[token]/rsvp/route';
+import { dynamoClient } from '@/app/libs/dynamoClient';
 
 afterEach(() => mock.restoreAll());
 

@@ -8,9 +8,9 @@ import {
   UpdateCommand,
 } from '@aws-sdk/lib-dynamodb';
 
-import { dynamoClient, dynamoDocumentClient } from '../app/libs/dynamoClient';
-import { formatInvitationAnswer } from '../app/services/wedding/chatService';
-import * as store from '../app/services/wedding/weddingStoreService';
+import { dynamoClient, dynamoDocumentClient } from '@/app/libs/dynamoClient';
+import { formatInvitationAnswer } from '@/app/services/wedding/chatService';
+import * as store from '@/app/services/wedding/weddingStoreService';
 
 const token = 'a'.repeat(43);
 const guest = {

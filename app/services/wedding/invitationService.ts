@@ -1,3 +1,5 @@
+import { WEDDING_USE_MOCKS } from '@/app/config/env';
+
 import { ApiError } from '../../libs/httpClient';
 import { invitationRequest } from '../../libs/invitationClient';
 import {
@@ -9,13 +11,11 @@ import {
   trackingResultSchema,
 } from './types';
 const API_ROOT = '/api/invitations';
-const mockEnabled =
-  process.env.NODE_ENV === 'development' &&
-  process.env.NEXT_PUBLIC_WEDDING_USE_MOCKS === 'true';
 
 export async function getInvitation(token: string) {
-  if (mockEnabled) {
-    const { buildMockInvitation } = await import('./invitationMocks');
+  if (WEDDING_USE_MOCKS) {
+    const { buildMockInvitation } =
+      await import('@/app/mocks/wedding/invitationMocks');
     const invitation = buildMockInvitation(token);
     if (!invitation) {
       throw new ApiError('Invitation not found', { status: 404 });
@@ -34,8 +34,9 @@ export async function askInvitation(
   context: ChatContext,
   signal?: AbortSignal,
 ) {
-  if (mockEnabled) {
-    const { askMockInvitation } = await import('./invitationMocks');
+  if (WEDDING_USE_MOCKS) {
+    const { askMockInvitation } =
+      await import('@/app/mocks/wedding/invitationMocks');
     return askMockInvitation(token, message, context);
   }
   return invitationRequest(
@@ -50,7 +51,7 @@ export async function askInvitation(
 }
 
 export async function recordInvitationOpen(token: string) {
-  if (mockEnabled) return { recorded: true };
+  if (WEDDING_USE_MOCKS) return { recorded: true };
   return invitationRequest(
     `${API_ROOT}/${encodeURIComponent(token)}/opened`,
     trackingResultSchema.parse,
@@ -61,7 +62,7 @@ export async function recordInvitationOpen(token: string) {
 }
 
 export async function recordInvitationReveal(token: string) {
-  if (mockEnabled) return { recorded: true };
+  if (WEDDING_USE_MOCKS) return { recorded: true };
   return invitationRequest(
     `${API_ROOT}/${encodeURIComponent(token)}/revealed`,
     trackingResultSchema.parse,
@@ -72,8 +73,9 @@ export async function recordInvitationReveal(token: string) {
 }
 
 export async function submitRSVP(token: string, responses: RsvpSubmission) {
-  if (mockEnabled) {
-    const { mockResponses } = await import('./invitationMocks');
+  if (WEDDING_USE_MOCKS) {
+    const { mockResponses } =
+      await import('@/app/mocks/wedding/invitationMocks');
     mockResponses.set(token, { ...mockResponses.get(token), ...responses });
     return { rsvp: responses, updatedAt: new Date().toISOString() };
   }

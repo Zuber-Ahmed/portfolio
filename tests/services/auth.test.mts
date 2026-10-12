@@ -9,12 +9,14 @@ import {
 } from '@aws-sdk/client-cognito-identity-provider';
 import { AxiosError, AxiosHeaders } from 'axios';
 
+import { createStorage } from '../helpers/storage';
+
 const previousId = process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID;
 process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID = 'test-client';
-const { cognitoClient } = await import('../app/libs/cognitoClient');
-const auth = await import('../app/services/wedding/authService');
-const { POST } = await import('../app/api/admin/auth/login/route');
-const { httpClient } = await import('../app/libs/httpClient');
+const { cognitoClient } = await import('@/app/libs/cognitoClient');
+const auth = await import('@/app/services/wedding/authService');
+const { POST } = await import('@/app/api/admin/auth/login/route');
+const { httpClient } = await import('@/app/libs/httpClient');
 const originalAdapter = httpClient.defaults.adapter;
 beforeEach(() => {
   httpClient.defaults.adapter = async config => {
@@ -67,14 +69,9 @@ afterEach(() => {
 });
 function setStorage() {
   for (const name of ['localStorage', 'sessionStorage']) {
-    const data = new Map<string, string>();
     Object.defineProperty(globalThis, name, {
       configurable: true,
-      value: {
-        getItem: (key: string) => data.get(key) ?? null,
-        setItem: (key: string, value: string) => data.set(key, value),
-        removeItem: (key: string) => data.delete(key),
-      },
+      value: createStorage(),
     });
   }
 }

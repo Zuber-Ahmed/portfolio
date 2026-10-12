@@ -16,36 +16,17 @@ import {
   listInvitations,
   updateInvitation,
 } from '@/app/services/wedding/adminService';
+import ConfirmDialog from '@/app/wedding/admin/components/ConfirmDialog';
+import GuestDialog from '@/app/wedding/admin/components/GuestDialog';
+import ImportDialog from '@/app/wedding/admin/components/ImportDialog';
 
-import ConfirmDialog from './ConfirmDialog';
-import GuestDialog from './GuestDialog';
-import ImportDialog from './ImportDialog';
+import RsvpStatus from '../components/RsvpStatus';
 
 const PAGE_SIZE = 25;
 
 function invitationLabel(invitation) {
   if (invitation.nikah && invitation.walima) return 'Both';
   return invitation.nikah ? 'Nikah' : 'Walima';
-}
-
-function RsvpStatus({ invitation }) {
-  const events = [
-    invitation.nikah && 'nikah',
-    invitation.walima && 'walima',
-  ].filter(Boolean);
-  return (
-    <div className="admin-rsvp-list">
-      {events.map(eventName => {
-        const status = invitation.rsvp[eventName] || 'pending';
-        return (
-          <span key={eventName} className={`admin-status ${status}`}>
-            <small>{events.length > 1 ? eventName[0].toUpperCase() : ''}</small>
-            {status[0].toUpperCase() + status.slice(1)}
-          </span>
-        );
-      })}
-    </div>
-  );
 }
 
 export default function GuestsPage({ onSessionExpired }) {

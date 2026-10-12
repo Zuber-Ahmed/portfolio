@@ -9,3 +9,5 @@ Production always loads invitation data from the database. Wedding facts are con
 Optional development UI previews are enabled with `NEXT_PUBLIC_WEDDING_USE_MOCKS=true`. Supported token names are `demo-individual-nikah`, `demo-individual-walima`, `demo-individual-both`, `demo-family-nikah`, `demo-family-walima`, and `demo-family-both`. Preview RSVP is temporary, tracking is simulated, chat is a preview message, and wedding facts remain placeholders. Mocks are disabled in production.
 
 See the root README for database and authentication setup.
+
+Development mock data lives in `app/mocks/wedding`. Shared animation helpers live in `app/utils/wedding`, and all tests are under the root `tests` directory. Wedding UI defaults live in `app/config/wedding.js`.

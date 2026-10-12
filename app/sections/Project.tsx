@@ -13,26 +13,11 @@ import img3 from '@/app/assets/img3.jpg';
 import photo1 from '@/app/assets/photo1.jpg';
 import photo2 from '@/app/assets/photo2.png';
 import photo3 from '@/app/assets/photo3.png';
+import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 
-const useInMobile = (query = '(max-width: 639px)') => {
-  const [isMobile, setIsMobile] = React.useState(
-    typeof window !== 'undefined' && window.matchMedia(query).matches,
-  );
-
-  React.useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mediaQuery = window.matchMedia(query);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mediaQuery.addEventListener('change', handler);
-    setIsMobile(mediaQuery.matches);
-    return () => mediaQuery.removeEventListener('change', handler);
-  }, [query]);
-
-  return isMobile;
-};
 const Project = () => {
   const [activeIndex, setActiveIndex] = React.useState(0);
-  const isMobile = useInMobile();
+  const isMobile = useMediaQuery();
   const sceneRef = React.useRef(null);
 
   const project = React.useMemo(

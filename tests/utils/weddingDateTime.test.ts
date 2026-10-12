@@ -1,14 +1,14 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { weddingInputSchema } from '../app/services/wedding/types';
+import { weddingInputSchema } from '@/app/services/wedding/types';
 import {
   eventDateTimeValue,
   eventScheduleFields,
   eventUtcOffset,
   formatWeddingTime,
   timeInputValue,
-} from '../app/utils/weddingDateTime';
+} from '@/app/utils/wedding/dateTime';
 
 test('ceremony times consistently use AM/PM, including noon and midnight', () => {
   for (const [input, expected] of [

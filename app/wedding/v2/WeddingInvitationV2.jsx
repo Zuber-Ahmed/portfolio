@@ -6,12 +6,13 @@ import './wedding-v2.css';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { weddingData } from '@/app/config/wedding';
 import { recordInvitationReveal } from '@/app/services/wedding/invitationService';
+import { mergeWeddingData } from '@/app/utils/wedding/weddingData';
 
 import { useWeddingAudio } from '../../hooks/useWeddingAudio';
 import PetalCanvas from '../components/PetalCanvas';
 import WeddingAudio from '../components/WeddingAudio';
-import { mergeWeddingData, weddingData } from '../data/weddingData';
 import InvitationExperience from './experience/InvitationExperience';
 import { useInvitation } from './hooks/useInvitation';
 import EnvelopeReveal from './invitation/EnvelopeReveal';

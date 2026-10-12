@@ -1,6 +1,8 @@
-import Portfolio from './components/Portfolio/page';
+import Portfolio from '@/app/components/Portfolio/Portfolio';
+import { getServerConfig } from '@/app/config/server';
+
 import WeddingMaintenance from './components/WeddingMaintenance/WeddingMaintenance';
 export default function HomePage() {
-  const isWeddingMaintenance = process.env.WEDDING_EVENT_MODE === 'true'; // Example condition to switch between Portfolio and WeddingMaintenance
+  const isWeddingMaintenance = getServerConfig().weddingEventMode;
   return isWeddingMaintenance ? <WeddingMaintenance /> : <Portfolio />;
 }
