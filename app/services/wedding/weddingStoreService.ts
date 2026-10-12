@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { dynamoClient } from '@/app/libs/dynamoClient';
 import { ApiError } from '@/app/libs/httpClient';
+import { formatWeddingTime } from '@/app/utils/weddingDateTime';
 
 import {
   eventDetailsSchema,
@@ -125,8 +126,8 @@ function publicEvent(event: z.infer<typeof eventDetailsSchema>) {
       'en-GB',
       { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' },
     ),
-    displayTime: event.displayTime || event.time || '',
-    time: event.displayTime || event.time || '',
+    displayTime: formatWeddingTime(event.displayTime || event.time || ''),
+    time: formatWeddingTime(event.displayTime || event.time || ''),
     venue: {
       name: (event.venueName ?? event.venue?.name) || 'Location Coming Soon',
       address: (event.venueAddress ?? event.venue?.address) || '',
@@ -192,7 +193,7 @@ export async function updateWedding(input: unknown) {
 function newInvitation(input: unknown): StoredInvitation {
   return {
     ...guestSchema.parse(input),
-    id: randomBytes(32).toString('base64url'),
+    id: randomBytes(9).toString('base64url'),
     kind: 'invitation' as const,
     rsvp: {} as Rsvp,
     opened: false,
@@ -207,7 +208,7 @@ function withUrl(item: unknown) {
       'Set APP_ORIGIN to the public website URL before managing invitations.',
       { status: 503 },
     );
-  return { ...invitation, invitationUrl: `${origin}/invite/${invitation.id}` };
+  return { ...invitation, invitationUrl: `${origin}/i/${invitation.id}` };
 }
 export async function listInvitations() {
   return (await dynamoClient.invitations()).map(withUrl);
@@ -228,11 +229,10 @@ export async function importInvitations(input: unknown) {
   return result;
 }
 async function getStoredInvitation(id: string) {
-  if (!/^[A-Za-z0-9_-]{43}$/.test(id))
+  if (!/^(?:[A-Za-z0-9_-]{12}|[A-Za-z0-9_-]{16}|[A-Za-z0-9_-]{43})$/.test(id))
     throw new ApiError('Invitation not found.', { status: 404 });
   const item = await dynamoClient.get(tokenKey(id));
-  if (!item)
-    throw new ApiError('Invitation not found.', { status: 404 });
+  if (!item) throw new ApiError('Invitation not found.', { status: 404 });
   return toStoredInvitation(item);
 }
 export async function updateInvitation(id: string, input: unknown) {

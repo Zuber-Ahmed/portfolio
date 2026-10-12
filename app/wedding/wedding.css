@@ -785,9 +785,9 @@
   display: inline-flex;
   align-items: center;
   padding: 0.55rem 0.85rem;
-  border: 1px solid rgb(197 160 89 / 35%);
+  border: 1px solid rgba(220, 219, 215, 0.35);
   border-radius: 999px;
-  color: #78716c;
+  color: #fff;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.1em;

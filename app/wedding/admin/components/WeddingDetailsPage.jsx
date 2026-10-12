@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   FiCalendar,
   FiCheckCircle,
@@ -8,6 +8,11 @@ import {
 } from 'react-icons/fi';
 
 import { getWedding, updateWedding } from '@/app/services/wedding/adminService';
+import {
+  eventDateTimeValue,
+  eventScheduleFields,
+  eventUtcOffset,
+} from '@/app/utils/weddingDateTime';
 
 export default function WeddingDetailsPage({ onSessionExpired }) {
   const [wedding, setWedding] = useState(null);
@@ -39,10 +44,10 @@ export default function WeddingDetailsPage({ onSessionExpired }) {
       ...current,
       couple: { ...current.couple, [field]: value },
     }));
-  const changeEvent = (eventName, field, value) =>
+  const changeEvent = (eventName, updates) =>
     setWedding(current => ({
       ...current,
-      [eventName]: { ...current[eventName], [field]: value },
+      [eventName]: { ...current[eventName], ...updates },
     }));
 
   const submit = async event => {
@@ -181,6 +186,19 @@ export default function WeddingDetailsPage({ onSessionExpired }) {
 }
 
 function EventDetails({ eventName, title, data, onChange, icon }) {
+  const dateInput = useRef(null);
+  const [offset] = useState(() =>
+    eventUtcOffset(data.countdownTarget, -new Date().getTimezoneOffset()),
+  );
+  const value = eventDateTimeValue(data);
+  const openCalendar = () => {
+    try {
+      dateInput.current?.showPicker?.();
+    } catch {
+      dateInput.current?.focus();
+    }
+  };
+
   return (
     <section className="admin-form-section">
       <header>
@@ -191,41 +209,40 @@ function EventDetails({ eventName, title, data, onChange, icon }) {
         </div>
       </header>
       <div className="admin-form-grid">
-        <label>
-          Date
-          <input
-            type="date"
-            value={data.date}
-            onChange={event => onChange(eventName, 'date', event.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Display Time
-          <input
-            value={data.displayTime}
-            onChange={event =>
-              onChange(eventName, 'displayTime', event.target.value)
-            }
-            required
-          />
-        </label>
-        <label className="full">
-          Countdown date and time (optional, ISO format with timezone)
-          <input
-            value={data.countdownTarget || ''}
-            onChange={event =>
-              onChange(eventName, 'countdownTarget', event.target.value)
-            }
-            placeholder="YYYY-MM-DDTHH:mm:ss+04:00"
-          />
-        </label>
+        <div className="admin-schedule-field">
+          <label htmlFor={`${eventName}-date-time`}>
+            Ceremony date and time
+          </label>
+          <div className="admin-date-picker">
+            <input
+              ref={dateInput}
+              id={`${eventName}-date-time`}
+              type="datetime-local"
+              value={value}
+              onClick={openCalendar}
+              onChange={event =>
+                onChange(
+                  eventName,
+                  eventScheduleFields(event.target.value, offset),
+                )
+              }
+              required
+            />
+            <button
+              type="button"
+              aria-label={`Open ${title} calendar`}
+              onClick={openCalendar}>
+              <FiCalendar />
+            </button>
+          </div>
+          <small>Sets the ceremony date, time, and invitation countdown.</small>
+        </div>
         <label className="full">
           Venue Name
           <input
             value={data.venueName || ''}
             onChange={event =>
-              onChange(eventName, 'venueName', event.target.value)
+              onChange(eventName, { venueName: event.target.value })
             }
             placeholder="Location Coming Soon"
           />
@@ -235,7 +252,7 @@ function EventDetails({ eventName, title, data, onChange, icon }) {
           <input
             value={data.venueAddress || ''}
             onChange={event =>
-              onChange(eventName, 'venueAddress', event.target.value)
+              onChange(eventName, { venueAddress: event.target.value })
             }
             placeholder="Leave empty until finalized"
           />
@@ -246,7 +263,7 @@ function EventDetails({ eventName, title, data, onChange, icon }) {
             type="url"
             value={data.googleMapsUrl || ''}
             onChange={event =>
-              onChange(eventName, 'googleMapsUrl', event.target.value)
+              onChange(eventName, { googleMapsUrl: event.target.value })
             }
             placeholder="https://maps.google.com/..."
           />

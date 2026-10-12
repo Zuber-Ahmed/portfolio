@@ -29,7 +29,7 @@ API route handlers → server services → clients → AWS
 | ----------------------------------- | ------------------------------------------------------- |
 | `/`                                 | Portfolio                                               |
 | `/wedding`                          | Public wedding experience, populated from DynamoDB      |
-| `/invite/[token]`                   | Personalized invitation, RSVP, and invitation assistant |
+| `/i/[token]`                        | Personalized invitation, RSVP, and invitation assistant |
 | `/wedding-admin`                    | Guest administration                                    |
 | `/wedding-admin/login`              | Administrator sign-in and password reset                |
 | `/wedding-admin/details`            | Edit the wedding details stored in DynamoDB             |
@@ -78,8 +78,8 @@ Use a table with a single **string partition key named `id`**, no sort key. The 
 
 - Wedding settings: `{ id: 'wedding', kind: 'wedding', wedding: { couple, nikah, walima } }`.
 - Invitations: `{ id: '<random token>', kind: 'invitation', displayName, recipientType, nikah, walima, rsvp, opened, revealed }`.
-- `id` is a cryptographically random 32-byte base64url token for each new invitation.
-- Event data accepts date, display time, optional venue fields, maps URL, and an optional ISO countdown timestamp with timezone.
+- `id` is a cryptographically random 9-byte base64url token (12 characters) for each new invitation. New share links use `/i/[token]`. Existing `/invite/[token]` links and 16- or 43-character tokens remain valid; existing records are not rewritten.
+- The admin calendar/time picker updates the existing `date`, `displayTime`, and `countdownTarget` fields together. Timezone handling is automatic: the saved timestamp’s offset is preserved, or the administrator’s local offset is used for a new schedule. Guests see 12-hour AM/PM times. No database migration is required.
 - The server derives display dates and nested venue objects for the existing UI.
 - Guest updates preserve tracking and RSVP fields. RSVP updates use conditional expressions to check event authorization at write time.
 - Imports use a single transaction, with a maximum of 100 guests. Invalid rows are rejected before writing.

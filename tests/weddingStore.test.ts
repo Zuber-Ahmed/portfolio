@@ -135,7 +135,7 @@ test('imports validate every row before writing and create unguessable links', a
   assert.notEqual(invitations[0].id, invitations[1].id);
   assert.match(
     invitations[0].invitationUrl,
-    /^https:\/\/example.com\/invite\/[A-Za-z0-9_-]{43}$/,
+    /^https:\/\/example.com\/i\/[A-Za-z0-9_-]{12}$/,
   );
 });
 
@@ -157,7 +157,7 @@ test('wedding updates normalize display fields and reject unsafe links', async (
   };
   const result = await store.updateWedding(input);
   assert.equal(result.nikah.venue.name, 'New Hall');
-  assert.equal(result.nikah.time, '6 PM');
+  assert.equal(result.nikah.time, '6:00 PM');
   assert.match(result.nikah.displayDate, /2027/);
   await assert.rejects(
     store.updateWedding({
@@ -206,5 +206,66 @@ test('DynamoDB configuration and conditional conflicts produce actionable errors
   await assert.rejects(
     dynamoClient.update(token, { UpdateExpression: 'SET opened = :yes' }),
     { status: 409 },
+  );
+});
+
+test('new invitations use short tokens and existing long invitation links still work', async () => {
+  process.env.APP_ORIGIN = 'https://example.com';
+  let saved: Record<string, unknown> = {};
+  mock.method(
+    dynamoClient,
+    'put',
+    async (item: Record<string, unknown>, create: boolean) => {
+      assert.equal(create, true); // A collision must never overwrite another guest.
+      saved = item;
+      return item;
+    },
+  );
+  const created = await store.createInvitation(guest);
+  assert.match(created.id, /^[A-Za-z0-9_-]{12}$/);
+  assert.equal(created.invitationUrl, `https://example.com/i/${created.id}`);
+  assert.equal(saved.pk, `TOKEN#${created.id}`);
+  mock.method(dynamoClient, 'get', async (pk: string) => {
+    if (pk === `TOKEN#${created.id}`) return saved;
+    if (pk === `TOKEN#${'b'.repeat(16)}`)
+      return { ...stored, id: 'b'.repeat(16) };
+    if (pk === `TOKEN#${token}`) return stored;
+    if (pk === 'CONFIG#WEDDING') return { config: wedding };
+    return undefined;
+  });
+  assert.equal(
+    (await store.getInvitation(created.id)).recipient.displayName,
+    guest.displayName,
+  );
+  assert.equal(
+    (await store.getInvitation(token)).recipient.displayName,
+    guest.displayName,
+  );
+  assert.equal(
+    (await store.getInvitation('b'.repeat(16))).recipient.displayName,
+    guest.displayName,
+  );
+  await assert.rejects(store.getInvitation('x'.repeat(11)), { status: 404 });
+  await assert.rejects(store.getInvitation('x'.repeat(13)), { status: 404 });
+  await assert.rejects(store.getInvitation('x'.repeat(15)), { status: 404 });
+  await assert.rejects(store.getInvitation('x'.repeat(17)), { status: 404 });
+});
+
+test('database time normalization is shared by invitations and chat', async () => {
+  mock.method(dynamoClient, 'get', async (pk: string) =>
+    pk === `TOKEN#${token}`
+      ? stored
+      : {
+          config: {
+            ...wedding,
+            nikah: { ...wedding.nikah, displayTime: '18:45' },
+          },
+        },
+  );
+  const invitation = await store.getInvitation(token);
+  assert.equal(invitation.events.nikah?.time, '6:45 PM');
+  assert.match(
+    formatInvitationAnswer(invitation, 'When is nikah?', {}).answer,
+    /6:45 PM/,
   );
 });

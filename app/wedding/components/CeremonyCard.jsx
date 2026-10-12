@@ -23,7 +23,7 @@ export default function CeremonyCard({ eyebrow, title, event, tone }) {
           href={event.venue.googleMapsUrl}
           target="_blank"
           rel="noopener noreferrer">
-          Get Directions
+          Get Directions 📍
         </a>
       ) : (
         <span className="wedding-location-pending" aria-disabled="true">

@@ -1318,3 +1318,31 @@
     flex-direction: column;
   }
 }
+
+.admin-schedule-field {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.admin-date-picker {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.admin-date-picker input {
+  min-width: 0;
+  color-scheme: light;
+}
+
+.admin-date-picker button {
+  flex-shrink: 0;
+  padding: 12px;
+  border: 1px solid var(--admin-green);
+  border-radius: 8px;
+  color: var(--admin-green);
+  background: white;
+  cursor: pointer;
+}
