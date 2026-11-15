@@ -80,6 +80,12 @@ Share `/reception` with anyone attending the Walima reception. It uses the same 
 
 ## Local setup
 
+### Invitation design demo
+
+`/walima` is an independent ivory-and-gold Walima design exploration. It reads couple, family, and Walima details through the existing server-side `getWedding()` service; it adds no API endpoint or authentication. `/reception` retains its current design. The original arch illustration is a local optimized WebP asset. Music starts after the visitor opens the seal; reduced-motion preferences are respected. There is no RSVP form.
+
+When the database is unavailable in development, `/walima` explicitly labels a design preview and shows placeholders for missing facts. Production does not use preview data and shows an unavailable state instead. Use the existing deployment database connection to verify actual dates, countdown, families, venue, and directions.
+
 ```sh
 npm install
 npm run dev
