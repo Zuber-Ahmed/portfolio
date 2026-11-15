@@ -58,7 +58,7 @@ export default function InvitationExperience({
           <h2>
             {wedding.couple.groom} &amp; {wedding.couple.bride}
           </h2>
-          <p>Are Saying Qabool Hai</p>
+          {events.nikah && <p>Are Saying Qabool Hai</p>}
         </div>
       </article>
 

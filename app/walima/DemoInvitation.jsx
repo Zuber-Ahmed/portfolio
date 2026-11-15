@@ -192,11 +192,15 @@ export default function DemoInvitation({
             <span className="demo-quote-mark" aria-hidden="true">
               “
             </span>
-            <h2>
-              And He placed between you
-              <br />
-              <em>affection and mercy.</em>
-            </h2>
+            <p className="demo-arabic demo-verse-arabic" lang="ar" dir="rtl">
+              وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا
+              لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+            </p>
+            <p className="demo-arabic-translation">
+              “And among His signs is that He created for you spouses from among
+              yourselves that you may find tranquility in them; and He placed
+              between you affection and mercy.”
+            </p>
             <p className="demo-eyebrow">Surah Ar-Rum · 30:21</p>
             <Ornament />
           </section>
@@ -204,6 +208,15 @@ export default function DemoInvitation({
           <DemoEventDetails event={event} />
 
           <footer className="demo-closing demo-section">
+            <Ornament />
+            <p className="demo-arabic demo-dua-arabic" lang="ar" dir="rtl">
+              بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا
+              فِي خَيْرٍ
+            </p>
+            <p className="demo-arabic-translation">
+              “May Allah bless for you, and shower His blessings upon you, and
+              join you both together in goodness.”
+            </p>
             <Ornament />
             <p className="demo-eyebrow">Until we celebrate together</p>
             <h2>

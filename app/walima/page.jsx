@@ -1,6 +1,6 @@
 import './demo.css';
 
-import { Cormorant_Garamond, Manrope } from 'next/font/google';
+import { Amiri, Cormorant_Garamond, Manrope } from 'next/font/google';
 import { connection } from 'next/server';
 import { Suspense } from 'react';
 
@@ -15,6 +15,11 @@ const display = Cormorant_Garamond({
   variable: '--demo-display',
 });
 const sans = Manrope({ subsets: ['latin'], variable: '--demo-sans' });
+const arabic = Amiri({
+  subsets: ['arabic'],
+  weight: '400',
+  variable: '--demo-arabic',
+});
 
 export const metadata = {
   title: 'A Celebration of Togetherness | Wedding Invitation',
@@ -44,7 +49,8 @@ async function Details() {
 
 export default function Page() {
   return (
-    <div className={`${display.variable} ${sans.variable} demo-root`}>
+    <div
+      className={`${display.variable} ${sans.variable} ${arabic.variable} demo-root`}>
       <Suspense
         fallback={
           <div className="demo-loading">

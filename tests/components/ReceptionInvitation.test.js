@@ -78,7 +78,7 @@ test('the common invitation renders only reception details, family greeting, and
   assert.match(html, /Groom Father/);
   assert.doesNotMatch(
     html,
-    /Nikah Ceremony|invitation-rsvp|RSVP|chat-launcher|Dear /,
+    /Nikah Ceremony|invitation-rsvp|RSVP|chat-launcher|Dear |Qabool Hai/,
   );
 });
 
