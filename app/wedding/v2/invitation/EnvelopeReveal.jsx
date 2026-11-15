@@ -8,7 +8,15 @@ function eventLabel(events) {
   return 'Walima';
 }
 
-export default function EnvelopeReveal({ recipient, events, onComplete }) {
+export default function EnvelopeReveal({
+  recipient,
+  events,
+  wedding,
+  onOpen,
+  onComplete,
+}) {
+  const groom = wedding?.couple.groom || 'Zuber';
+  const bride = wedding?.couple.bride || 'Bisma';
   const [stage, setStage] = useState('sealed');
   const sequence = useRef(null);
   const onCompleteRef = useRef(onComplete);
@@ -21,6 +29,7 @@ export default function EnvelopeReveal({ recipient, events, onComplete }) {
 
   const openInvitation = () => {
     if (!sequence.current) {
+      onOpen?.();
       const reducedMotion = window.matchMedia(
         '(prefers-reduced-motion: reduce)',
       ).matches;
@@ -37,7 +46,9 @@ export default function EnvelopeReveal({ recipient, events, onComplete }) {
     <main
       className={`wedding-v2-reveal wedding-v2-envelope-reveal is-${stage}`}>
       <header>
-        <span>Zuber &amp; Bisma</span>
+        <span>
+          {groom} &amp; {bride}
+        </span>
         <h1>A Special Invitation For</h1>
         <strong>{recipient.displayName}</strong>
         <p>
@@ -55,7 +66,7 @@ export default function EnvelopeReveal({ recipient, events, onComplete }) {
           <div className="wedding-v2-envelope-paper" aria-hidden="true">
             <span>With the blessings of Allah</span>
             <strong>
-              Zuber <i>&amp;</i> Bisma
+              {groom} <i>&amp;</i> {bride}
             </strong>
             <small>Our Wedding Invitation</small>
           </div>
@@ -64,7 +75,9 @@ export default function EnvelopeReveal({ recipient, events, onComplete }) {
             <span />
           </div>
           <div className="wedding-v2-envelope-pocket" aria-hidden="true">
-            <span>Zuber &amp; Bisma</span>
+            <span>
+              {groom} &amp; {bride}
+            </span>
           </div>
 
           <div

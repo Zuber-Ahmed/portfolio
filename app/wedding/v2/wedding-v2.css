@@ -1052,6 +1052,16 @@
   scroll-margin-top: 5rem;
 }
 @media (max-width: 639px) {
+  .wedding-v2-couple-hero h2 {
+    font-size: clamp(1.85rem, 8vw, 2.75rem);
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+  .wedding-v2-closing h2 {
+    font-size: clamp(1.65rem, 7vw, 2.2rem);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
   .wedding-v2-chat-launcher {
     right: 16px;
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));

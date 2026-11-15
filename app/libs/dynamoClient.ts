@@ -22,7 +22,10 @@ export const dynamoDocumentClient = DynamoDBDocumentClient.from(
 function tableName() {
   const name = getServerConfig().weddingTableName;
   if (!name)
-    throw new ApiError('Wedding storage is not configured.', { status: 503 });
+    throw new ApiError('Wedding storage is not configured.', {
+      status: 503,
+      code: 'WEDDING_STORAGE_NOT_CONFIGURED',
+    });
   return name;
 }
 

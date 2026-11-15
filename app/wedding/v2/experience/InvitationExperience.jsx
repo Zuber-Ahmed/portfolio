@@ -18,6 +18,7 @@ export default function InvitationExperience({
   wedding,
   onReplay,
   onVisitPortfolio,
+  generic = false,
 }) {
   const { recipient, events } = invitation;
   const primaryEvent = events.nikah || events.walima;
@@ -28,11 +29,17 @@ export default function InvitationExperience({
         <IslamicOpening showVerse={false} />
         <div className="wedding-v2-greeting">
           <span>Formal Invitation</span>
-          <h1>Dear {recipient.displayName},</h1>
+          <h1>
+            {generic
+              ? 'You and your family are cordially invited'
+              : `Dear ${recipient.displayName},`}
+          </h1>
           <p>
             With the blessings of Allah, we request the honour of your presence
-            and heartfelt duas as our beloved children unite under the sacred
-            covenant of marriage.
+            and heartfelt duas{' '}
+            {generic
+              ? 'at the Walima reception celebrating the marriage of our beloved children.'
+              : 'as our beloved children unite under the sacred covenant of marriage.'}
           </p>
         </div>
       </section>
@@ -91,9 +98,11 @@ export default function InvitationExperience({
             />
           )}
         </section>
-        <div id="invitation-rsvp" tabIndex={-1}>
-          <RSVPSection token={token} invitation={invitation} />
-        </div>
+        {!generic && (
+          <div id="invitation-rsvp" tabIndex={-1}>
+            <RSVPSection token={token} invitation={invitation} />
+          </div>
+        )}
         <footer className="wedding-v2-closing">
           <p className="wedding-arabic" dir="rtl">
             بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا
@@ -117,7 +126,9 @@ export default function InvitationExperience({
           </div>
         </footer>
       </section>
-      <ChatWidget key={token} token={token} invitation={invitation} />
+      {!generic && (
+        <ChatWidget key={token} token={token} invitation={invitation} />
+      )}
     </main>
   );
 }

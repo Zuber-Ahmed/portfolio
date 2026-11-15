@@ -57,6 +57,7 @@ Placement rules:
 | ----------------------------------- | ------------------------------------------------------- |
 | `/`                                 | Portfolio                                               |
 | `/wedding`                          | Public wedding experience, populated from DynamoDB      |
+| `/reception`                        | Common Walima invitation; no guest name, token, or RSVP |
 | `/i/[token]`                        | Personalized invitation, RSVP, and invitation assistant |
 | `/wedding-admin`                    | Guest administration                                    |
 | `/wedding-admin/login`              | Administrator sign-in and password reset                |
@@ -74,6 +75,8 @@ Placement rules:
 | `/api/invitations/[token]/chat`     | Answer questions from saved invitation facts            |
 
 The `/wedding` experience is public and shows both ceremonies. Personalized responses and chat only include events selected for that guest. Possession of a personalized link grants access to that invitation; treat those links as private.
+
+Share `/reception` with anyone attending the Walima reception. It uses the same envelope, reveal, music, and invitation design as personalized links, with a common family greeting. Details come from `/wedding-admin/details`; only a Walima date is required. It has no RSVP, guest tracking, or token-based assistant, and does not create invitation records. The Next.js page reads directly through the existing server-side `getWedding()` service and passes only couple and Walima details to the client. There is no reception API endpoint or separate data-source configuration. Local testing uses the same DynamoDB settings and AWS credentials as the existing admin backend.
 
 ## Local setup
 
