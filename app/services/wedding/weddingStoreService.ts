@@ -194,7 +194,7 @@ export async function updateWedding(input: unknown) {
 function newInvitation(input: unknown): StoredInvitation {
   return {
     ...guestSchema.parse(input),
-    id: randomBytes(9).toString('base64url'),
+    id: randomBytes(5).toString('base64url').slice(0, 6),
     kind: 'invitation' as const,
     rsvp: {} as Rsvp,
     opened: false,
@@ -230,7 +230,11 @@ export async function importInvitations(input: unknown) {
   return result;
 }
 async function getStoredInvitation(id: string) {
-  if (!/^(?:[A-Za-z0-9_-]{12}|[A-Za-z0-9_-]{16}|[A-Za-z0-9_-]{43})$/.test(id))
+  if (
+    !/^(?:[A-Za-z0-9_-]{6}|[A-Za-z0-9_-]{12}|[A-Za-z0-9_-]{16}|[A-Za-z0-9_-]{43}|[A-Fa-f0-9]{64})$/.test(
+      id,
+    )
+  )
     throw new ApiError('Invitation not found.', { status: 404 });
   const item = await dynamoClient.get(tokenKey(id));
   if (!item) throw new ApiError('Invitation not found.', { status: 404 });

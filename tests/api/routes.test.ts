@@ -37,6 +37,43 @@ test('public invitation requests need a valid invitation, not an admin session',
   assert.equal(response.status, 404);
 });
 
+test('hexadecimal invitation URLs load without admin authentication when the record exists', async () => {
+  const token = '0123456789abcdef'.repeat(4);
+  mock.method(dynamoClient, 'get', async (pk: string) => {
+    if (pk === `TOKEN#${token}`)
+      return {
+        pk,
+        recipient: {
+          displayName: 'Example guest',
+          recipientType: 'individual',
+        },
+        authorizedEvents: ['walima'],
+        rsvp: {},
+      };
+    if (pk === 'CONFIG#WEDDING')
+      return {
+        config: {
+          couple: {
+            groomName: 'Groom',
+            brideName: 'Bride',
+            groomFather: '',
+            brideFather: '',
+          },
+          nikah: { date: '', displayTime: '' },
+          walima: { date: '2027-01-02', displayTime: '7 PM' },
+        },
+      };
+  });
+  const response = await invitation(new Request('http://localhost'), {
+    params: Promise.resolve({ token }),
+  });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.recipient.displayName, 'Example guest');
+  assert.equal(body.events.nikah, undefined);
+  assert.equal(body.events.walima.date, '2027-01-02');
+});
+
 test('RSVP handlers reject malformed JSON and unknown event keys', async () => {
   const context = { params: Promise.resolve({ token: 'a'.repeat(43) }) };
   for (const body of [

@@ -135,7 +135,7 @@ test('imports validate every row before writing and create unguessable links', a
   assert.notEqual(invitations[0].id, invitations[1].id);
   assert.match(
     invitations[0].invitationUrl,
-    /^https:\/\/example.com\/i\/[A-Za-z0-9_-]{12}$/,
+    /^https:\/\/example.com\/i\/[A-Za-z0-9_-]{6}$/,
   );
 });
 
@@ -209,7 +209,7 @@ test('DynamoDB configuration and conditional conflicts produce actionable errors
   );
 });
 
-test('new invitations use short tokens and existing long invitation links still work', async () => {
+test('new invitations use six-character tokens and existing invitation links still work', async () => {
   process.env.APP_ORIGIN = 'https://example.com';
   let saved: Record<string, unknown> = {};
   mock.method(
@@ -222,11 +222,13 @@ test('new invitations use short tokens and existing long invitation links still 
     },
   );
   const created = await store.createInvitation(guest);
-  assert.match(created.id, /^[A-Za-z0-9_-]{12}$/);
+  assert.match(created.id, /^[A-Za-z0-9_-]{6}$/);
   assert.equal(created.invitationUrl, `https://example.com/i/${created.id}`);
   assert.equal(saved.pk, `TOKEN#${created.id}`);
   mock.method(dynamoClient, 'get', async (pk: string) => {
     if (pk === `TOKEN#${created.id}`) return saved;
+    if (pk === `TOKEN#${'b'.repeat(12)}`)
+      return { ...stored, id: 'b'.repeat(12) };
     if (pk === `TOKEN#${'b'.repeat(16)}`)
       return { ...stored, id: 'b'.repeat(16) };
     if (pk === `TOKEN#${token}`) return stored;
@@ -242,13 +244,49 @@ test('new invitations use short tokens and existing long invitation links still 
     guest.displayName,
   );
   assert.equal(
+    (await store.getInvitation('b'.repeat(12))).recipient.displayName,
+    guest.displayName,
+  );
+  assert.equal(
     (await store.getInvitation('b'.repeat(16))).recipient.displayName,
     guest.displayName,
   );
+  await assert.rejects(store.getInvitation('x'.repeat(5)), { status: 404 });
+  await assert.rejects(store.getInvitation('x'.repeat(7)), { status: 404 });
   await assert.rejects(store.getInvitation('x'.repeat(11)), { status: 404 });
   await assert.rejects(store.getInvitation('x'.repeat(13)), { status: 404 });
   await assert.rejects(store.getInvitation('x'.repeat(15)), { status: 404 });
   await assert.rejects(store.getInvitation('x'.repeat(17)), { status: 404 });
+});
+
+test('64-character hexadecimal invitations reach storage and retain event restrictions', async () => {
+  const hexToken = '0123456789abcdef'.repeat(4);
+  const read = mock.method(dynamoClient, 'get', async (pk: string) => {
+    if (pk === `TOKEN#${hexToken}`)
+      return {
+        pk,
+        recipient: {
+          displayName: guest.displayName,
+          recipientType: guest.recipientType,
+        },
+        authorizedEvents: ['nikah'],
+        rsvp: {},
+      };
+    if (pk === 'CONFIG#WEDDING') return { config: wedding };
+    return undefined;
+  });
+  const result = await store.getInvitation(hexToken);
+  assert.equal(read.mock.calls[0].arguments[0], `TOKEN#${hexToken}`);
+  assert.equal(result.recipient.displayName, guest.displayName);
+  assert.equal(result.events.walima, undefined);
+  assert.doesNotMatch(JSON.stringify(result), /Private venue|Private address/);
+
+  await assert.rejects(store.getInvitation('f'.repeat(64)), { status: 404 });
+  const readCount = read.mock.callCount();
+  for (const invalid of ['g'.repeat(64), 'a'.repeat(63), 'a'.repeat(65)]) {
+    await assert.rejects(store.getInvitation(invalid), { status: 404 });
+  }
+  assert.equal(read.mock.callCount(), readCount);
 });
 
 test('database time normalization is shared by invitations and chat', async () => {

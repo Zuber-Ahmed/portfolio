@@ -115,7 +115,7 @@ Use a table with a single **string partition key named `id`**, no sort key. The 
 
 - Wedding settings: `{ id: 'wedding', kind: 'wedding', wedding: { couple, nikah, walima } }`.
 - Invitations: `{ id: '<random token>', kind: 'invitation', displayName, recipientType, nikah, walima, rsvp, opened, revealed }`.
-- `id` is a cryptographically random 9-byte base64url token (12 characters) for each new invitation. New share links use `/i/[token]`. Existing `/invite/[token]` links and 16- or 43-character tokens remain valid; existing records are not rewritten.
+- New invitations use a cryptographically random 6-character base64url token. New share links use `/i/[token]`. Existing `/invite/[token]` links, 12-, 16-, or 43-character tokens, and 64-character hexadecimal tokens remain valid when their invitation record exists; existing records are not rewritten. Conditional writes prevent a token collision from overwriting another invitation. Six-character links have less guessing resistance than longer tokens; possession of the link grants access to the invitation.
 - The admin calendar/time picker updates the existing `date`, `displayTime`, and `countdownTarget` fields together. Timezone handling is automatic: the saved timestamp’s offset is preserved, or the administrator’s local offset is used for a new schedule. Guests see 12-hour AM/PM times. No database migration is required.
 - The server derives display dates and nested venue objects for the existing UI.
 - Guest updates preserve tracking and RSVP fields. RSVP updates use conditional expressions to check event authorization at write time.
